@@ -12,11 +12,11 @@ export default class MainLayout extends React.Component {
       <Router>
         <div>
           <Header />
-            <Switch>
-              <Route exact path='/' component={Home} />
-              <Route path = '/about' component={About} />
-              <Route component={NotFound} />
-            </Switch>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <Route path='/about' component={About} />
+            <Route component={NotFound} />
+          </Switch>
         </div>
       </Router>
     );
