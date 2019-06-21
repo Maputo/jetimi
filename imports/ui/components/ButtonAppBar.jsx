@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
+import Home from '@material-ui/icons/Home';
 import People from '@material-ui/icons/People';
 import PeopleOutline from '@material-ui/icons/PeopleOutline';
 import List from '@material-ui/core/List';
@@ -50,9 +52,9 @@ export default function ButtonAppBar() {
 
   const imageCenter = {
     "display": "block",
-    "margin-top": "20px",
-    "margin-left": "auto",
-    "margin-right": "auto",
+    "marginTop": "20px",
+    "marginLeft": "auto",
+    "marginRight": "auto",
     "width": "125px",
     "height": "125px"
   };
@@ -62,20 +64,29 @@ export default function ButtonAppBar() {
       className={classes.list}
       role="presentation"
       onClick={toggleDrawer(side, false)}
-      onKeyDown={toggleDrawer(side, false)}
-    >
+      onKeyDown={toggleDrawer(side, false)}>
+
       <img src="/logo.jpg" style={imageCenter} />
 
       <List>
-        {['Jetimi', 'Donatori'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <People /> : <PeopleOutline />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        <ListItem button key="Home" component={Link} to="/">
+          <ListItemIcon><Home /></ListItemIcon>
+          <ListItemText primary="Početna" />
+        </ListItem>
+
+        <Divider />
+
+        <ListItem button key="Children" component={Link} to="/child/list">
+          <ListItemIcon><People /></ListItemIcon>
+          <ListItemText primary="Jetimi" />
+        </ListItem>
+
+        <ListItem button key="Donators" href="/">
+          <ListItemIcon><PeopleOutline /></ListItemIcon>
+          <ListItemText primary="Donatori" />
+        </ListItem>
       </List>
-      <Divider />
-    </div>
+    </div >
   );
 
   return (
