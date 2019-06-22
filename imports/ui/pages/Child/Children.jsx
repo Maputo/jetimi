@@ -1,20 +1,8 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
 
 export default function Children() {
-  const muiTheme = createMuiTheme({
-    palette: {
-      primary: {
-        main: '#4caf50',
-      },
-      secondary: {
-        main: '#ff9100',
-      },
-    },
 
-  });
 
   const [state, setState] = React.useState({
     columns: [
@@ -41,7 +29,6 @@ export default function Children() {
   return (
     <div className="children">
       <h1>Children</h1>
-      <MuiThemeProvider theme={muiTheme}>
         <MaterialTable
           title="Editable Example"
           columns={state.columns}
@@ -76,7 +63,6 @@ export default function Children() {
               }),
           }}
         />
-      </MuiThemeProvider>
     </div>
   );
 }
