@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
 
 import ButtonAppBar from '../components/ButtonAppBar.jsx';
 import Home from '../pages/Home.jsx';
@@ -16,9 +17,9 @@ export default class MainLayout extends React.Component {
     return (
       <Router>
         <div>
-          <MuiThemeProvider theme={theme}>
+          <ThemeProvider theme={theme}>
             <ButtonAppBar />
-          </MuiThemeProvider>
+          </ThemeProvider>
           <Switch>
             <Route exact path='/' component={Home} />
             <Route path='/about' component={About} />
