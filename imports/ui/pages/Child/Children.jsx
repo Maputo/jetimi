@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from "react-router";
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {lighten, makeStyles} from '@material-ui/core/styles';
@@ -211,7 +212,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function EnhancedTable() {
+const EnhancedTable = (props) => {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('dateOfBirth');
@@ -220,15 +221,15 @@ export default function EnhancedTable() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  static contextTypes = {
-    router: PropTypes.shape({
-      history: PropTypes.shape({
-        push: PropTypes.func.isRequired,
-        replace: PropTypes.func.isRequired
-      }).isRequired,
-      staticContext: PropTypes.object
-    }).isRequired
-  };
+  // EnhancedTable.contextTypes = {
+  //   router: PropTypes.shape({
+  //     history: PropTypes.shape({
+  //       push: PropTypes.func.isRequired,
+  //       replace: PropTypes.func.isRequired
+  //     }).isRequired,
+  //     staticContext: PropTypes.object
+  //   }).isRequired
+  // };
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -246,7 +247,7 @@ export default function EnhancedTable() {
   };
 
   const handleClick = (event, name) => {
-    this.context.router.history.push('/child/profile');
+    props.history.push('/child/profile');
     // const selectedIndex = selected.indexOf(name);
     // let newSelected = [];
     //
@@ -360,4 +361,6 @@ export default function EnhancedTable() {
       />
     </div>
   );
-}
+};
+
+export default withRouter(EnhancedTable);
