@@ -4,7 +4,12 @@
   "description": "Jetimi Sandzaka - Information System",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "pretest": "npm run lint --silent"
+  },
+  "eslintConfig": {
+    "extends": "@meteorjs/eslint-config-meteor"
   },
   "repository": {
     "type": "git",
@@ -27,5 +32,16 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^4.0.0-beta.6"
+  },
+  "devDependencies": {
+    "@meteorjs/eslint-config-meteor": "^1.0.5",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-import-resolver-meteor": "^0.4.0",
+    "eslint-plugin-import": "^2.19.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-meteor": "^6.0.0",
+    "eslint-plugin-react": "^7.17.0"
   }
 }
