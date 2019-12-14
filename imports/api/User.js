@@ -1,29 +1,30 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
-export const User = {
-  get: function() {
+const User = {
+  get() {
     return Meteor.user() || {};
   },
 
-  id: function() {
+  id() {
     return Meteor.userId();
   },
 
-  isLoggedIn: function() {
-    return !! Meteor.userId();
+  isLoggedIn() {
+    return !!Meteor.userId();
   },
 
-  isLoggedOut: function() {
-    return ! User.isLoggedIn();
+  isLoggedOut() {
+    return !User.isLoggedIn();
   },
 
-  profile: function() {
+  profile() {
     return User.get().profile;
   },
 
-  create: function(opts, callback) {
+  create(opts, callback) {
     Accounts.createUser(opts, callback);
-  }
+  },
 };
 
+export default User;

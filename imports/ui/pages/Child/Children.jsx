@@ -1,8 +1,8 @@
 import React from 'react';
-import { withRouter } from "react-router";
+import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import {lighten, makeStyles} from '@material-ui/core/styles';
+import { lighten, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -22,21 +22,21 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
 function createData(name, dateOfBirth, address, sponsor, situation) {
-  return {name, dateOfBirth, address, sponsor, situation};
+  return { name, dateOfBirth, address, sponsor, situation };
 }
 
 const rows = [
-  createData('Amel Mustafic', 12, "Jalija 45, Novi Pazar", "Da", 4.3),
-  createData('Amina Gorcevic', 11, "Osmana Djikica 13, Novi Pazar", "Da", 4.9),
-  createData('Emin Omerovic', 8, "Kalacko brdo, Rozaje", "Da", 6.0),
-  createData('Zehra Bulic', 5, "Revolucije 15, Tutin", "Da", 4.0),
-  createData('Rijalda Hasic', 4, "Velje polje, Tutin", "Ne", 3.9),
-  createData('Muzafer Kamberovic', 7, "Ferhadija 12, Tutin", "Ne", 6.5),
-  createData('Zijad Zekovic', 7, "Rakovo polje, Tutin", "Ne", 4.3),
-  createData('Belma Rastic', 10, "Mitrovacka 3, Novi Pazar", "Da", 0.0),
-  createData('Dzafer Redzic', 6, "Parice, Novi Pazar", "Da", 7.0),
-  createData('Semra Zukovic', 3, "Bukres, Novi Pazar", "Ne", 0.0),
-  createData('Imer Kadric', 9, "Banja, Novi Pazar", "Da", 2.0)
+  createData('Amel Mustafic', 12, 'Jalija 45, Novi Pazar', 'Da', 4.3),
+  createData('Amina Gorcevic', 11, 'Osmana Djikica 13, Novi Pazar', 'Da', 4.9),
+  createData('Emin Omerovic', 8, 'Kalacko brdo, Rozaje', 'Da', 6.0),
+  createData('Zehra Bulic', 5, 'Revolucije 15, Tutin', 'Da', 4.0),
+  createData('Rijalda Hasic', 4, 'Velje polje, Tutin', 'Ne', 3.9),
+  createData('Muzafer Kamberovic', 7, 'Ferhadija 12, Tutin', 'Ne', 6.5),
+  createData('Zijad Zekovic', 7, 'Rakovo polje, Tutin', 'Ne', 4.3),
+  createData('Belma Rastic', 10, 'Mitrovacka 3, Novi Pazar', 'Da', 0.0),
+  createData('Dzafer Redzic', 6, 'Parice, Novi Pazar', 'Da', 7.0),
+  createData('Semra Zukovic', 3, 'Bukres, Novi Pazar', 'Ne', 0.0),
+  createData('Imer Kadric', 9, 'Banja, Novi Pazar', 'Da', 2.0)
 ];
 
 function desc(a, b, orderBy) {
@@ -56,7 +56,7 @@ function stableSort(array, cmp) {
     if (order !== 0) return order;
     return a[1] - b[1];
   });
-  return stabilizedThis.map(el => el[0]);
+  return stabilizedThis.map((el) => el[0]);
 }
 
 function getSorting(order, orderBy) {
@@ -64,16 +64,28 @@ function getSorting(order, orderBy) {
 }
 
 const headCells = [
-  {id: 'name', numeric: false, disablePadding: true, label: 'Ime i prezime'},
-  {id: 'dateOfBirth', numeric: true, disablePadding: false, label: 'Starost'},
-  {id: 'address', numeric: false, disablePadding: false, label: 'Adresa'},
-  {id: 'sponsor', numeric: false, disablePadding: false, label: 'Sponzor'},
-  {id: 'situation', numeric: true, disablePadding: false, label: 'Situacija'},
+  {
+    id: 'name', numeric: false, disablePadding: true, label: 'Ime i prezime',
+  },
+  {
+    id: 'dateOfBirth', numeric: true, disablePadding: false, label: 'Starost',
+  },
+  {
+    id: 'address', numeric: false, disablePadding: false, label: 'Adresa',
+  },
+  {
+    id: 'sponsor', numeric: false, disablePadding: false, label: 'Sponzor',
+  },
+  {
+    id: 'situation', numeric: true, disablePadding: false, label: 'Situacija',
+  },
 ];
 
 function EnhancedTableHead(props) {
-  const {classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort} = props;
-  const createSortHandler = property => event => {
+  const {
+    classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort,
+  } = props;
+  const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
 
@@ -85,10 +97,10 @@ function EnhancedTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{'aria-label': 'select all desserts'}}
+            inputProps={{ 'aria-label': 'select all desserts' }}
           />
         </TableCell>
-        {headCells.map(headCell => (
+        {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}
@@ -115,7 +127,7 @@ function EnhancedTableHead(props) {
 }
 
 EnhancedTableHead.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
   numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
   onSelectAllClick: PropTypes.func.isRequired,
@@ -124,7 +136,7 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-const useToolbarStyles = makeStyles(theme => ({
+const useToolbarStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
@@ -144,9 +156,9 @@ const useToolbarStyles = makeStyles(theme => ({
   },
 }));
 
-const EnhancedTableToolbar = props => {
+const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
-  const {numSelected} = props;
+  const { numSelected } = props;
 
   return (
     <Toolbar
@@ -156,7 +168,8 @@ const EnhancedTableToolbar = props => {
     >
       {numSelected > 0 ? (
         <Typography className={classes.title} color="inherit" variant="subtitle1">
-          {numSelected} selected
+          {numSelected}
+          selected
         </Typography>
       ) : (
         <Typography className={classes.title} variant="h6" id="tableTitle">
@@ -167,13 +180,13 @@ const EnhancedTableToolbar = props => {
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton aria-label="delete">
-            <DeleteIcon/>
+            <DeleteIcon />
           </IconButton>
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
           <IconButton aria-label="filter list">
-            <FilterListIcon/>
+            <FilterListIcon />
           </IconButton>
         </Tooltip>
       )}
@@ -185,7 +198,7 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
   },
@@ -237,7 +250,7 @@ const EnhancedTable = (props) => {
     setOrderBy(property);
   };
 
-  const handleSelectAllClick = event => {
+  const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = rows.map(n => n.name);
       setSelected(newSelecteds);
@@ -246,7 +259,7 @@ const EnhancedTable = (props) => {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
+  const handleClick = (event, name) => { // eslint-disable-line no-unused-vars
     props.history.push('/child/profile');
     // const selectedIndex = selected.indexOf(name);
     // let newSelected = [];
@@ -271,23 +284,23 @@ const EnhancedTable = (props) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = event => {
+  const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const handleChangeDense = event => {
+  const handleChangeDense = (event) => {
     setDense(event.target.checked);
   };
 
-  const isSelected = name => selected.indexOf(name) !== -1;
+  const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length}/>
+        <EnhancedTableToolbar numSelected={selected.length} />
         <div className={classes.tableWrapper}>
           <Table
             className={classes.table}
@@ -314,7 +327,7 @@ const EnhancedTable = (props) => {
                   return (
                     <TableRow
                       hover
-                      onClick={event => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.name)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -324,22 +337,27 @@ const EnhancedTable = (props) => {
                       <TableCell padding="checkbox">
                         <Checkbox
                           checked={isItemSelected}
-                          inputProps={{'aria-labelledby': labelId}}
+                          inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none">
                         {row.name}
                       </TableCell>
-                      <TableCell style={{width: '10%'}} align="right">{row.dateOfBirth}</TableCell>
-                      <TableCell style={{width: '40%'}} align="left">{row.address}</TableCell>
-                      <TableCell style={{width: '10%'}} align="left">{row.sponsor}</TableCell>
-                      <TableCell style={{width: '10%'}} align="right">{row.situation}</TableCell>
+                      <TableCell
+                        style={{ width: '10%' }}
+                        align="right"
+                      >
+                        {row.dateOfBirth}
+                      </TableCell>
+                      <TableCell style={{ width: '40%' }} align="left">{row.address}</TableCell>
+                      <TableCell style={{ width: '10%' }} align="left">{row.sponsor}</TableCell>
+                      <TableCell style={{ width: '10%' }} align="right">{row.situation}</TableCell>
                     </TableRow>
                   );
                 })}
               {emptyRows > 0 && (
-                <TableRow style={{height: (dense ? 33 : 53) * emptyRows}}>
-                  <TableCell colSpan={6}/>
+                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                  <TableCell colSpan={6} />
                 </TableRow>
               )}
             </TableBody>
@@ -356,7 +374,7 @@ const EnhancedTable = (props) => {
         />
       </Paper>
       <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense}/>}
+        control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Dense padding"
       />
     </div>
