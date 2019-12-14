@@ -1,5 +1,5 @@
 {
-  "name": "aid",
+  "name": "jetimi",
   "version": "1.0.1",
   "description": "Jetimi Sandzaka - Information System",
   "main": "index.js",
@@ -16,7 +16,7 @@
     "url": "https://github.com/Maputo/aid"
   },
   "author": "Haris Ljajic <haris.ljajic@gmail.com>",
-  "license": "TBD",
+  "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/maputo/aid/issues"
   },
