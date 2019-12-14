@@ -22,7 +22,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import FilterListIcon from '@material-ui/icons/FilterList';
 
 function createData(name, dateOfBirth, address, sponsor, situation) {
-  return { name, dateOfBirth, address, sponsor, situation };
+  return {
+    name, dateOfBirth, address, sponsor, situation,
+  };
 }
 
 const rows = [
@@ -36,7 +38,7 @@ const rows = [
   createData('Belma Rastic', 10, 'Mitrovacka 3, Novi Pazar', 'Da', 0.0),
   createData('Dzafer Redzic', 6, 'Parice, Novi Pazar', 'Da', 7.0),
   createData('Semra Zukovic', 3, 'Bukres, Novi Pazar', 'Ne', 0.0),
-  createData('Imer Kadric', 9, 'Banja, Novi Pazar', 'Da', 2.0)
+  createData('Imer Kadric', 9, 'Banja, Novi Pazar', 'Da', 2.0),
 ];
 
 function desc(a, b, orderBy) {
@@ -252,7 +254,7 @@ const EnhancedTable = (props) => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map(n => n.name);
+      const newSelecteds = rows.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
