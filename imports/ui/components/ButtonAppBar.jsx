@@ -86,7 +86,7 @@ export default function ButtonAppBar() {
           <ListItemText primary="Donatori" />
         </ListItem>
       </List>
-    </div >
+    </div>
   );
 
   return (
@@ -94,7 +94,7 @@ export default function ButtonAppBar() {
       <AppBar position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="Menu"
-            onClick={toggleDrawer('left', true)}>
+                      onClick={toggleDrawer('left', true)}>
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>

@@ -3,9 +3,9 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import MainLayout from '../../ui/containers/MainLayout.jsx';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
+import MainLayout from '../../ui/containers/MainLayout.jsx';
 
 const theme = createMuiTheme();
 
@@ -14,6 +14,6 @@ Meteor.startup(() => {
     <ThemeProvider theme={theme}>
       <MainLayout />
     </ThemeProvider>,
-    document.getElementById('app')
+    document.getElementById('app'),
   );
 });

@@ -317,10 +317,10 @@ const EnhancedTable = (props) => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={props.children.length}
             />
             <TableBody>
-              {stableSort(rows, getSorting(order, orderBy))
+              {stableSort(props.children, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
@@ -349,7 +349,7 @@ const EnhancedTable = (props) => {
                         style={{ width: '10%' }}
                         align="right"
                       >
-                        {row.dateOfBirth}
+                        {row.dateOfBirth.toLocaleDateString()}
                       </TableCell>
                       <TableCell style={{ width: '40%' }} align="left">{row.address}</TableCell>
                       <TableCell style={{ width: '10%' }} align="left">{row.sponsor}</TableCell>
@@ -368,7 +368,7 @@ const EnhancedTable = (props) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={props.children.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
