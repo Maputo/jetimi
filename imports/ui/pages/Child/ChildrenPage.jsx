@@ -1,45 +1,17 @@
 import React from 'react';
 import { withRouter } from 'react-router';
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { lighten, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
-
-function createData(name, dateOfBirth, address, sponsor, situation) {
-  return {
-    name, dateOfBirth, address, sponsor, situation,
-  };
-}
-
-const rows = [
-  createData('Amel Mustafic', 12, 'Jalija 45, Novi Pazar', 'Da', 4.3),
-  createData('Amina Gorcevic', 11, 'Osmana Djikica 13, Novi Pazar', 'Da', 4.9),
-  createData('Emin Omerovic', 8, 'Kalacko brdo, Rozaje', 'Da', 6.0),
-  createData('Zehra Bulic', 5, 'Revolucije 15, Tutin', 'Da', 4.0),
-  createData('Rijalda Hasic', 4, 'Velje polje, Tutin', 'Ne', 3.9),
-  createData('Muzafer Kamberovic', 7, 'Ferhadija 12, Tutin', 'Ne', 6.5),
-  createData('Zijad Zekovic', 7, 'Rakovo polje, Tutin', 'Ne', 4.3),
-  createData('Belma Rastic', 10, 'Mitrovacka 3, Novi Pazar', 'Da', 0.0),
-  createData('Dzafer Redzic', 6, 'Parice, Novi Pazar', 'Da', 7.0),
-  createData('Semra Zukovic', 3, 'Bukres, Novi Pazar', 'Ne', 0.0),
-  createData('Imer Kadric', 9, 'Banja, Novi Pazar', 'Da', 2.0),
-];
+import EnhancedTableHead from '../../components/table/EnhancedTableHead.jsx';
+import EnhancedTableToolbar from '../../components/table/EnhancedTableToolbar.jsx';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -83,123 +55,6 @@ const headCells = [
   },
 ];
 
-function EnhancedTableHead(props) {
-  const {
-    classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort,
-  } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox">
-          <Checkbox
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all desserts' }}
-          />
-        </TableCell>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
-            padding={headCell.disablePadding ? 'none' : 'default'}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={order}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <span className={classes.visuallyHidden}>
-                  {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                </span>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-EnhancedTableHead.propTypes = {
-  classes: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-};
-
-const useToolbarStyles = makeStyles((theme) => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-        color: theme.palette.secondary.main,
-        backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-      }
-      : {
-        color: theme.palette.text.primary,
-        backgroundColor: theme.palette.secondary.dark,
-      },
-  title: {
-    flex: '1 1 100%',
-  },
-}));
-
-const EnhancedTableToolbar = (props) => {
-  const classes = useToolbarStyles();
-  const { numSelected } = props;
-
-  return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
-      {numSelected > 0 ? (
-        <Typography className={classes.title} color="inherit" variant="subtitle1">
-          {numSelected}
-          selected
-        </Typography>
-      ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle">
-          Nutrition
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-};
-
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -236,15 +91,7 @@ const EnhancedTable = (props) => {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  // EnhancedTable.contextTypes = {
-  //   router: PropTypes.shape({
-  //     history: PropTypes.shape({
-  //       push: PropTypes.func.isRequired,
-  //       replace: PropTypes.func.isRequired
-  //     }).isRequired,
-  //     staticContext: PropTypes.object
-  //   }).isRequired
-  // };
+  const { children = [] } = props;
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -254,7 +101,7 @@ const EnhancedTable = (props) => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = children.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -296,8 +143,7 @@ const EnhancedTable = (props) => {
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
-
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, children.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
@@ -317,10 +163,11 @@ const EnhancedTable = (props) => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={props.children.length}
+              rowCount={children.length}
+              headCells={headCells}
             />
             <TableBody>
-              {stableSort(props.children, getSorting(order, orderBy))
+              {stableSort(children, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
@@ -349,7 +196,7 @@ const EnhancedTable = (props) => {
                         style={{ width: '10%' }}
                         align="right"
                       >
-                        {row.dateOfBirth.toLocaleDateString()}
+                        {row.dateOfBirth && row.dateOfBirth.toLocaleDateString()}
                       </TableCell>
                       <TableCell style={{ width: '40%' }} align="left">{row.address}</TableCell>
                       <TableCell style={{ width: '10%' }} align="left">{row.sponsor}</TableCell>
@@ -368,7 +215,7 @@ const EnhancedTable = (props) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={props.children.length}
+          count={children.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}

@@ -12,9 +12,7 @@ const ChildrenPageContainer = withTracker(() => {
     loading: !publicHandle.ready(),
     connected: Meteor.status().connected,
     children: Children.find({
-      $or: [
-        { userId: { $exists: false } },
-      ],
+      userId: { $exists: false },
     }).fetch(),
   };
 })(ChildrenPage);
