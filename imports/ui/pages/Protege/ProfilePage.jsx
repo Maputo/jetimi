@@ -69,11 +69,11 @@ function SimpleCard() {
       <CardActions>
         <Button size="small">Learn More</Button>
       </CardActions>
-    </Card >
+    </Card>
   );
 }
 
-export default function Profile() {
+export default function ProfilePage() {
   const classes = useStyles();
 
   return (

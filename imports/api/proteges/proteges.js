@@ -1,8 +1,8 @@
 import { Mongo } from 'meteor/mongo';
 
-const Children = new Mongo.Collection('Children');
+const Proteges = new Mongo.Collection('Proteges');
 
-Children.publicFields = {
+Proteges.publicFields = {
   name: 1,
   dateOfBirth: 1,
   address: 1,
@@ -10,4 +10,4 @@ Children.publicFields = {
   situation: 1,
 };
 
-export default Children;
+export default Proteges;

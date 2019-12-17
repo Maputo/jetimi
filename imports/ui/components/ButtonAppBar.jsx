@@ -64,9 +64,10 @@ export default function ButtonAppBar() {
       className={classes.list}
       role="presentation"
       onClick={toggleDrawer(side, false)}
-      onKeyDown={toggleDrawer(side, false)}>
+      onKeyDown={toggleDrawer(side, false)}
+    >
 
-      <img src="/logo.jpg" style={imageCenter} />
+      <img alt="Jetimi Sandzaka" src="/logo.jpg" style={imageCenter} />
 
       <List>
         <ListItem button key="Home" component={Link} to="/">
@@ -76,7 +77,7 @@ export default function ButtonAppBar() {
 
         <Divider />
 
-        <ListItem button key="Children" component={Link} to="/child/list">
+        <ListItem button key="Proteges" component={Link} to="/p/list">
           <ListItemIcon><People /></ListItemIcon>
           <ListItemText primary="Jetimi" />
         </ListItem>

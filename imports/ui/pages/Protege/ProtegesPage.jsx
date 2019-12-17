@@ -91,7 +91,7 @@ const EnhancedTable = (props) => {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const { children = [] } = props;
+  const { proteges = [] } = props;
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -101,7 +101,7 @@ const EnhancedTable = (props) => {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = children.map((n) => n.name);
+      const newSelecteds = proteges.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -109,7 +109,7 @@ const EnhancedTable = (props) => {
   };
 
   const handleClick = (event, name) => { // eslint-disable-line no-unused-vars
-    props.history.push('/child/profile');
+    props.history.push('/p/profile');
     // const selectedIndex = selected.indexOf(name);
     // let newSelected = [];
     //
@@ -143,7 +143,7 @@ const EnhancedTable = (props) => {
   };
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, children.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, proteges.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
@@ -163,11 +163,11 @@ const EnhancedTable = (props) => {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={children.length}
+              rowCount={proteges.length}
               headCells={headCells}
             />
             <TableBody>
-              {stableSort(children, getSorting(order, orderBy))
+              {stableSort(proteges, getSorting(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
@@ -215,7 +215,7 @@ const EnhancedTable = (props) => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={children.length}
+          count={proteges.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
