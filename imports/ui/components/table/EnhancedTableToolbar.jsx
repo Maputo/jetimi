@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import NativeSelects from '../input/NativeSelects.jsx';
+import TownFilterContainer from '../../containers/TownFilterContainer.jsx';
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
@@ -28,21 +28,6 @@ const useToolbarStyles = makeStyles((theme) => ({
     flex: '1 1 100%',
   },
 }));
-
-const selectOptions = [
-  {
-    text: 'Rozaje',
-    value: 1,
-  },
-  {
-    text: 'Novi Pazar',
-    value: 2,
-  },
-  {
-    text: 'Tutin',
-    value: 3,
-  },
-];
 
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
@@ -74,7 +59,7 @@ const EnhancedTableToolbar = (props) => {
       ) : (
         <Tooltip title="Filter list">
           <IconButton aria-label="filter list">
-            <NativeSelects id="town" label="Grad" options={selectOptions} />
+            <TownFilterContainer />
           </IconButton>
         </Tooltip>
       )}
