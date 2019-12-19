@@ -42,7 +42,7 @@ const headCells = [
     id: 'name', numeric: false, disablePadding: true, label: 'Ime i prezime',
   },
   {
-    id: 'dateOfBirth', numeric: true, disablePadding: false, label: 'Starost',
+    id: 'age', numeric: true, disablePadding: false, label: 'Starost',
   },
   {
     id: 'address', numeric: false, disablePadding: false, label: 'Adresa',
@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 const EnhancedTable = (props) => {
   const classes = useStyles();
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('dateOfBirth');
+  const [orderBy, setOrderBy] = React.useState('age');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -196,7 +196,7 @@ const EnhancedTable = (props) => {
                         style={{ width: '10%' }}
                         align="right"
                       >
-                        {row.dateOfBirth}
+                        {row.age}
                       </TableCell>
                       <TableCell style={{ width: '40%' }} align="left">{row.address}</TableCell>
                       <TableCell style={{ width: '10%' }} align="left">{row.sponsor}</TableCell>

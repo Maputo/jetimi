@@ -45,9 +45,7 @@ const EnhancedTableToolbar = (props) => {
           selected
         </Typography>
       ) : (
-        <Typography className={classes.title} variant="h6" id="tableTitle">
-          Nutrition
-        </Typography>
+        <Typography className={classes.title} variant="h6" id="tableTitle" />
       )}
 
       {numSelected > 0 ? (
