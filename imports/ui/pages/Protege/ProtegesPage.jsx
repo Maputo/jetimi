@@ -196,7 +196,7 @@ const EnhancedTable = (props) => {
                         style={{ width: '10%' }}
                         align="right"
                       >
-                        {row.dateOfBirth && row.dateOfBirth.toLocaleDateString()}
+                        {row.dateOfBirth}
                       </TableCell>
                       <TableCell style={{ width: '40%' }} align="left">{row.address}</TableCell>
                       <TableCell style={{ width: '10%' }} align="left">{row.sponsor}</TableCell>
