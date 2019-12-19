@@ -35,3 +35,4 @@ aldeed:collection2
 react-meteor-data
 msavin:mongol
 aldeed:simple-schema
+tunguska:reactive-aggregate
