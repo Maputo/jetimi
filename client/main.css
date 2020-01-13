@@ -8,3 +8,6 @@ Header a, #login-buttons a {
   margin-right: 10px;
   color:inherit;
 }
+.Filters {
+  display: inline-flex;
+}

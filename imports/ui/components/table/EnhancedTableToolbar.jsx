@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import TownFilterContainer from '../../containers/TownFilterContainer.jsx';
+import Filters from '../../containers/Filters.jsx';
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
@@ -57,7 +57,7 @@ const EnhancedTableToolbar = (props) => {
       ) : (
         <Tooltip title="Filter list">
           <IconButton aria-label="filter list">
-            <TownFilterContainer />
+            <Filters />
           </IconButton>
         </Tooltip>
       )}

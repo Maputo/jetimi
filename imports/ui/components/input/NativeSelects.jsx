@@ -17,44 +17,38 @@ const useStyles = makeStyles((theme) => ({
 
 const NativeSelects = (props) => {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    town: '',
-    name: 'hai',
-  });
 
   const { label, id, options } = props;
 
   const inputLabel = React.useRef(null);
   const [labelWidth, setLabelWidth] = React.useState(0);
+
   React.useEffect(() => {
     setLabelWidth(inputLabel.current.offsetWidth);
   }, []);
 
-  const handleChange = (name) => (event) => {
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
+  const handleChange = () => (event) => {
+    props.onSelect(event.target.value);
   };
 
   return (
     <div>
-      <FormControl variant="outlined" className={classes.formControl}>
+      <FormControl variant="filled" className={classes.formControl}>
         <InputLabel ref={inputLabel} htmlFor={`outlined-${id}-native-simple`}>
           {label}
         </InputLabel>
         <Select
           native
-          value={state.age}
-          onChange={handleChange('town')}
+          onChange={handleChange(this)}
           labelWidth={labelWidth}
-          inputProps={{
-            name: 'age',
-            id: `outlined-${id}-native-simple`,
-          }}
+          disabled={!label}
         >
           <option value="" aria-label="empty" />
-          {options.map((opt) => (<option key={opt.value} value={opt.value}>{opt.text}</option>))}
+          {options.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.text}
+            </option>
+          ))}
         </Select>
       </FormControl>
     </div>
@@ -64,7 +58,8 @@ const NativeSelects = (props) => {
 export default NativeSelects;
 
 NativeSelects.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  label: PropTypes.string,
   options: PropTypes.array.isRequired,
+  onSelect: PropTypes.func,
 };
