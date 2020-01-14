@@ -91,7 +91,7 @@ const EnhancedTable = (props) => {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  const { proteges = [] } = props;
+  const { proteges = [], history } = props;
 
   const handleRequestSort = (event, property) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -109,7 +109,7 @@ const EnhancedTable = (props) => {
   };
 
   const handleClick = (event, name) => { // eslint-disable-line no-unused-vars
-    props.history.push('/p/profile');
+    history.push('/p/profile');
     // const selectedIndex = selected.indexOf(name);
     // let newSelected = [];
     //

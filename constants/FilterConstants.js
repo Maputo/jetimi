@@ -1,10 +1,10 @@
 const Filter = {
   TOWN: {
-    ID: 'TOWN',
+    ID: 'town',
     LABEL: 'Grad',
   },
   GENDER: {
-    ID: 'GENDER',
+    ID: 'gender',
     LABEL: 'Spol',
   },
 };
