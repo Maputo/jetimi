@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
-import FilterIdContainer from './FilterIdContainer.jsx';
-import FilterValueContainer from './FilterValueContainer.jsx';
+import FilterIdContainer from '../../containers/FilterIdContainer.jsx';
+import FilterValueContainer from '../../containers/FilterValueContainer.jsx';
 import Filter from '/constants/FilterConstants.js';
-import { NOOP } from '../../../constants/DefaultProps.js';
+import { NOOP } from '/constants/DefaultProps.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 export const FILTERS = Object.values(Filter);
 
 const getFilterForId = (id) => {
-  const filter = FILTERS.find((f) => f.ID === id);
+  const filter = FILTERS.find((f) => f.id === id);
   return filter || {};
 };
 
@@ -36,7 +36,7 @@ const Filters = (props) => {
   return (
     <div className={classes.root}>
       <FilterIdContainer filters={FILTERS} onSelect={onFilterSelectCallback} />
-      <FilterValueContainer filter={filter} onSelect={handleFilterSelect(filter.ID)} />
+      <FilterValueContainer filter={filter} onSelect={handleFilterSelect(filter.id)} />
     </div>
   );
 };

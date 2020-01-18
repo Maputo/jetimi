@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import Filters from '../../containers/Filters.jsx';
+import Filters from './Filters.jsx';
 import Chips from '../input/Chips.jsx';
+import Filter from '/constants/FilterConstants.js';
 import { EMPTY_OBJECT } from '../../../../constants/DefaultProps.js';
 
 const useToolbarStyles = makeStyles((theme) => ({
@@ -46,6 +47,7 @@ const mapParams = (query) => {
 
       return ({ id: keyValue[0], value: keyValue[1] });
     }).reduce((obj, item) => {
+      item.label = `${Filter[item.id].label}: ${item.value}`;
       obj[item.id] = item;
       return obj;
     }, {});
@@ -60,6 +62,7 @@ const mapParamsToString = (params) => {
 };
 
 const deleteChip = (chip) => {
+  console.log('delete chip', chip);
 };
 
 const FiltersAndChips = (props) => {

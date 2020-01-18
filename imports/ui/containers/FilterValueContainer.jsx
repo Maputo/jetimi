@@ -30,9 +30,9 @@ const getGenders = () => mapGendersToOptions(GENDERS);
 
 const getOptionsForId = (filterId) => {
   switch (filterId) {
-    case Filter.TOWN.ID:
+    case Filter.town.id:
       return getTowns();
-    case Filter.GENDER.ID:
+    case Filter.gender.id:
       return getGenders();
     default:
       return [];
@@ -44,8 +44,8 @@ const FilterValueContainer = withTracker((props) => {
 
   return {
     id: 'filtervalue',
-    label: props && props.filter ? props.filter.LABEL : '',
-    options: getOptionsForId(props && props.filter ? props.filter.ID : ''),
+    label: props && props.filter ? props.filter.label : '',
+    options: getOptionsForId(props && props.filter ? props.filter.id : ''),
   };
 })(NativeSelects);
 

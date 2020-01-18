@@ -30,7 +30,7 @@ const Chips = (props) => {
         return (
           <Chip
             key={chip.id}
-            label={chip.value}
+            label={chip.label}
             onDelete={handleDelete(chip)}
             className={classes.chip}
           />
