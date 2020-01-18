@@ -5,8 +5,6 @@ import { lighten, makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Filters from '../molecules/Filters.jsx';
 import Chips from '../atoms/Chips.jsx';
-import Filter from '/constants/FilterConstants.js';
-import { EMPTY_OBJECT } from '../../../../constants/DefaultProps.js';
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
@@ -39,15 +37,11 @@ const mapParamsToString = (params) => {
   return pairsArray.join(':');
 };
 
-const deleteChip = (chip) => {
-  console.log('delete chip', chip);
-};
-
 const FiltersAndChips = (props) => {
   const classes = useToolbarStyles();
   const { location, history, filterData } = props;
 
-  const mapParams = (query) => {
+  const mapParamsToFilters = (query) => {
     const filterParams = query
       ? query.split('?')[1].split('&')
         .find((param) => param.startsWith('filter'))
@@ -55,41 +49,50 @@ const FiltersAndChips = (props) => {
       : '';
 
     if (filterParams) {
-      return filterParams.split(':').map((param) => {
-        const keyValue = param.split('-');
-
-        return ({ id: keyValue[0], value: keyValue[1] });
-      }).reduce((obj, item) => {
-        const name = filterData[item.id].values.find((f) => f.value === item.value);
-        item.label = `${filterData[item.id].label}: ${name ? name.text : ''}`;
-        obj[item.id] = item;
-        return obj;
-      }, {});
+      return filterParams.split(':')
+        .map((param) => {
+          const keyValue = param.split('-');
+          return ({ id: keyValue[0], value: keyValue[1] });
+        }).reduce((obj, item) => {
+          const name = filterData[item.id].values.find((f) => f.value === item.value);
+          item.label = `${filterData[item.id].label}: ${name ? name.text : ''}`;
+          obj[item.id] = item;
+          return obj;
+        }, {});
     }
 
     return {};
   };
 
+  const updateFilters = (filters) => {
+    history.push({
+      pathname: '/p/list',
+      search: `?filter=${filters}`,
+    });
+  };
+
   const addFilter = (filter) => {
     if (filter.value) {
-      const params = mapParams(location.search);
-      params[filter.id] = filter;
-
-      history.push({
-        pathname: '/p/list',
-        search: `?filter=${mapParamsToString(Object.values(params))}`,
-      });
+      const filters = mapParamsToFilters(location.search);
+      filters[filter.id] = filter;
+      updateFilters(mapParamsToString(Object.values(filters)));
     }
   };
 
-  const chips = Object.values(mapParams(location.search)) || [];
+  const removeFilter = (filter) => {
+    const filters = mapParamsToFilters(location.search);
+    delete filters[filter.id];
+    updateFilters(mapParamsToString(Object.values(filters)));
+  };
+
+  const chips = Object.values(mapParamsToFilters(location.search)) || [];
 
   return (
     <Toolbar>
 
       <div className={classes.filters}>
         <Filters onFilterSelect={addFilter} filterData={filterData} />
-        <Chips chips={chips} onDelete={deleteChip} />
+        <Chips chips={chips} onDelete={removeFilter} />
       </div>
 
     </Toolbar>
