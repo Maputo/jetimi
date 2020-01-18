@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
+import { EMPTY_ARRAY, NOOP } from '../../../../constants/DefaultProps';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,8 +20,8 @@ const Chips = (props) => {
   const classes = useStyles();
   const { chips } = props;
 
-  const handleDelete = (chipToDelete) => () => {
-    // setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
+  const handleDelete = (chip) => () => {
+    props.onDelete(chip);
   };
 
   return (
@@ -28,8 +29,8 @@ const Chips = (props) => {
       {chips.map((chip) => {
         return (
           <Chip
-            key={chip.key}
-            label={chip.label}
+            key={chip.id}
+            label={chip.value}
             onDelete={handleDelete(chip)}
             className={classes.chip}
           />
@@ -41,6 +42,12 @@ const Chips = (props) => {
 
 Chips.propTypes = {
   chips: PropTypes.array,
+  onDelete: PropTypes.func,
+};
+
+Chips.defaultProps = {
+  chips: EMPTY_ARRAY,
+  onDelete: NOOP,
 };
 
 export default Chips;

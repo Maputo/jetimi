@@ -5,6 +5,7 @@ import { lighten, makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Filters from '../../containers/Filters.jsx';
 import Chips from '../input/Chips.jsx';
+import { EMPTY_OBJECT } from '../../../../constants/DefaultProps.js';
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
@@ -32,34 +33,59 @@ const useToolbarStyles = makeStyles((theme) => ({
   },
 }));
 
-const getChipsFromParams = (query) => {
+const mapParams = (query) => {
   const filterParams = query
-    ? query.split('?')[1].split('&').find((param) => param.startsWith('filter'))
+    ? query.split('?')[1].split('&')
+      .find((param) => param.startsWith('filter'))
+      .split('=')[1]
     : '';
 
   if (filterParams) {
     return filterParams.split(':').map((param) => {
       const keyValue = param.split('-');
 
-      return ({ key: keyValue[0], label: keyValue[1] });
-    });
+      return ({ id: keyValue[0], value: keyValue[1] });
+    }).reduce((obj, item) => {
+      obj[item.id] = item;
+      return obj;
+    }, {});
   }
 
-  return [];
+  return {};
+};
+
+const mapParamsToString = (params) => {
+  const pairsArray = params.map((param) => `${param.id}-${param.value}`);
+  return pairsArray.join(':');
+};
+
+const deleteChip = (chip) => {
 };
 
 const FiltersAndChips = (props) => {
   const classes = useToolbarStyles();
-  const { location } = props;
+  const { location, history } = props;
 
-  const chips = getChipsFromParams(location.search);
+  const addFilter = (filter) => {
+    if (filter.value) {
+      const params = mapParams(location.search);
+      params[filter.id] = filter;
+
+      history.push({
+        pathname: '/p/list',
+        search: `?filter=${mapParamsToString(Object.values(params))}`,
+      });
+    }
+  };
+
+  const chips = Object.values(mapParams(location.search)) || [];
 
   return (
     <Toolbar>
 
       <div className={classes.filters}>
-        <Filters />
-        <Chips chips={chips} />
+        <Filters onFilterSelect={addFilter} />
+        <Chips chips={chips} onDelete={deleteChip} />
       </div>
 
     </Toolbar>
@@ -68,6 +94,12 @@ const FiltersAndChips = (props) => {
 
 FiltersAndChips.propTypes = {
   location: PropTypes.object,
+  history: PropTypes.object,
+};
+
+FiltersAndChips.defaultProps = {
+  location: EMPTY_OBJECT,
+  history: EMPTY_OBJECT,
 };
 
 export default withRouter(FiltersAndChips);
