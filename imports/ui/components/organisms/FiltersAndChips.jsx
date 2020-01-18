@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { lighten, makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
-import Filters from './Filters.jsx';
-import Chips from '../input/Chips.jsx';
+import Filters from '../molecules/Filters.jsx';
+import Chips from '../atoms/Chips.jsx';
 import Filter from '/constants/FilterConstants.js';
 import { EMPTY_OBJECT } from '../../../../constants/DefaultProps.js';
 

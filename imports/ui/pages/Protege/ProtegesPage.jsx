@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import EnhancedTableHead from '../../components/molecules/EnhancedTableHead.jsx';
-import FiltersAndChips from '../../components/molecules/FiltersAndChips.jsx';
+import FiltersAndChips from '../../components/organisms/FiltersAndChips.jsx';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {

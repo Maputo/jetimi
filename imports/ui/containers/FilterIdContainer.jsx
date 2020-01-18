@@ -1,5 +1,5 @@
 import { withTracker } from 'meteor/react-meteor-data';
-import NativeSelects from '../components/input/NativeSelects.jsx';
+import NativeSelects from '../components/atoms/NativeSelects.jsx';
 
 const mapFiltersToOptions = (filters) => filters.map((filter) => (
   { text: filter.label, value: filter.id }

@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
-import MainLayout from '../../ui/containers/MainLayout.jsx';
+import MainLayout from '../../ui/pages/MainLayout.jsx';
 
 const theme = createMuiTheme();
 

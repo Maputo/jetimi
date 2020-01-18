@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import Towns from '../../api/towns/towns.js';
-import NativeSelects from '../components/input/NativeSelects.jsx';
+import NativeSelects from '../components/atoms/NativeSelects.jsx';
 import Filter from '/constants/FilterConstants.js';
 
 const GENDERS = [
