@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
-import FilterValueContainer from '../../containers/FilterValueContainer.jsx';
+import { map } from 'underscore';
+import NativeSelects from '../atoms/NativeSelects.jsx';
 import Filter from '/constants/FilterConstants.js';
-import { NOOP } from '/constants/DefaultProps.js';
-import NativeSelects from '../atoms/NativeSelects';
+import { EMPTY_OBJECT, NOOP } from '/constants/DefaultProps.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,19 +17,19 @@ const useStyles = makeStyles((theme) => ({
 
 export const FILTERS = Object.values(Filter);
 
-const mapFiltersToOptions = (filters) => filters.map((filter) => (
-  { text: filter.label, value: filter.id }
+const mapFiltersToOptions = (filters) => map(filters, (value, key) => (
+  { text: value.label, value: key }
 ));
-
-const getFilterForId = (id) => {
-  const filter = FILTERS.find((f) => f.id === id);
-  return filter || {};
-};
 
 const Filters = (props) => {
   const classes = useStyles();
   const [filter, setFilter] = React.useState({});
-  const { onFilterSelect } = props;
+  const { onFilterSelect, filterData } = props;
+
+  const getFilterForId = (id) => {
+    const ft = filterData[id];
+    return ft ? { id, label: ft.label } : {};
+  };
 
   const onFilterSelectCallback = (filterId) => setFilter(getFilterForId(filterId));
 
@@ -37,25 +37,34 @@ const Filters = (props) => {
     onFilterSelect({ id: filterId, value: filterValue });
   };
 
+  const getOptionsForId = (filterId) => (filterId ? filterData[filterId].values : []);
+
   return (
     <div className={classes.root}>
       <NativeSelects
         id="filter"
         label="Filter"
-        options={mapFiltersToOptions(FILTERS)}
+        options={mapFiltersToOptions(filterData)}
         onSelect={onFilterSelectCallback}
       />
-      <FilterValueContainer filter={filter} onSelect={handleFilterSelect(filter.id)} />
+      <NativeSelects
+        id="filtervalue"
+        label={filter ? filter.label : ''}
+        options={getOptionsForId(filter ? filter.id : '')}
+        onSelect={handleFilterSelect(filter.id)}
+      />
     </div>
   );
 };
 
 Filters.propTypes = {
   onFilterSelect: PropTypes.func,
+  filterData: PropTypes.object,
 };
 
 Filters.defaultProps = {
   onFilterSelect: NOOP,
+  filterData: EMPTY_OBJECT,
 };
 
 export default withRouter(Filters);

@@ -67,7 +67,7 @@ const deleteChip = (chip) => {
 
 const FiltersAndChips = (props) => {
   const classes = useToolbarStyles();
-  const { location, history } = props;
+  const { location, history, filterData } = props;
 
   const addFilter = (filter) => {
     if (filter.value) {
@@ -87,7 +87,7 @@ const FiltersAndChips = (props) => {
     <Toolbar>
 
       <div className={classes.filters}>
-        <Filters onFilterSelect={addFilter} />
+        <Filters onFilterSelect={addFilter} filterData={filterData} />
         <Chips chips={chips} onDelete={deleteChip} />
       </div>
 
@@ -96,13 +96,9 @@ const FiltersAndChips = (props) => {
 };
 
 FiltersAndChips.propTypes = {
-  location: PropTypes.object,
-  history: PropTypes.object,
-};
-
-FiltersAndChips.defaultProps = {
-  location: EMPTY_OBJECT,
-  history: EMPTY_OBJECT,
+  location: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  filterData: PropTypes.object.isRequired,
 };
 
 export default withRouter(FiltersAndChips);

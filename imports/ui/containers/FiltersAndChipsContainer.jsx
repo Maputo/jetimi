@@ -1,9 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import Towns from '../../api/towns/towns.js';
-import NativeSelects from '../components/atoms/NativeSelects.jsx';
-import Filter from '/constants/FilterConstants.js';
 import Gender from '../../../constants/GenderConstants';
+import FiltersAndChips from '../components/organisms/FiltersAndChips.jsx';
 
 const GENDERS = Object.values(Gender);
 
@@ -19,25 +18,23 @@ const getTowns = () => {
 
 const getGenders = () => mapGendersToOptions(GENDERS);
 
-const getOptionsForId = (filterId) => {
-  switch (filterId) {
-    case Filter.town.id:
-      return getTowns();
-    case Filter.gender.id:
-      return getGenders();
-    default:
-      return [];
-  }
-};
+const buildFilterData = () => ({
+  town: {
+    label: 'Grad',
+    values: getTowns(),
+  },
+  gender: {
+    label: 'Pol',
+    values: getGenders(),
+  },
+});
 
-const FilterValueContainer = withTracker((props) => {
+const FiltersAndChipsContainer = withTracker(() => {
   Meteor.subscribe('towns.public');
 
   return {
-    id: 'filtervalue',
-    label: props && props.filter ? props.filter.label : '',
-    options: getOptionsForId(props && props.filter ? props.filter.id : ''),
+    filterData: buildFilterData(),
   };
-})(NativeSelects);
+})(FiltersAndChips);
 
-export default FilterValueContainer;
+export default FiltersAndChipsContainer;

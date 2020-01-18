@@ -58,8 +58,12 @@ const NativeSelects = (props) => {
 export default NativeSelects;
 
 NativeSelects.propTypes = {
-  id: PropTypes.string,
+  id: PropTypes.string.isRequired,
   label: PropTypes.string,
   options: PropTypes.array.isRequired,
-  onSelect: PropTypes.func,
+  onSelect: PropTypes.func.isRequired,
+};
+
+NativeSelects.defaultProps = {
+  label: '',
 };
