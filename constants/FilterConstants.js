@@ -5,7 +5,7 @@ const Filter = {
   },
   GENDER: {
     ID: 'gender',
-    LABEL: 'Spol',
+    LABEL: 'Pol',
   },
 };
 
