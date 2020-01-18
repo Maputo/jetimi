@@ -34,28 +34,6 @@ const useToolbarStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapParams = (query) => {
-  const filterParams = query
-    ? query.split('?')[1].split('&')
-      .find((param) => param.startsWith('filter'))
-      .split('=')[1]
-    : '';
-
-  if (filterParams) {
-    return filterParams.split(':').map((param) => {
-      const keyValue = param.split('-');
-
-      return ({ id: keyValue[0], value: keyValue[1] });
-    }).reduce((obj, item) => {
-      item.label = `${Filter[item.id].label}: ${item.value}`;
-      obj[item.id] = item;
-      return obj;
-    }, {});
-  }
-
-  return {};
-};
-
 const mapParamsToString = (params) => {
   const pairsArray = params.map((param) => `${param.id}-${param.value}`);
   return pairsArray.join(':');
@@ -68,6 +46,29 @@ const deleteChip = (chip) => {
 const FiltersAndChips = (props) => {
   const classes = useToolbarStyles();
   const { location, history, filterData } = props;
+
+  const mapParams = (query) => {
+    const filterParams = query
+      ? query.split('?')[1].split('&')
+        .find((param) => param.startsWith('filter'))
+        .split('=')[1]
+      : '';
+
+    if (filterParams) {
+      return filterParams.split(':').map((param) => {
+        const keyValue = param.split('-');
+
+        return ({ id: keyValue[0], value: keyValue[1] });
+      }).reduce((obj, item) => {
+        const name = filterData[item.id].values.find((f) => f.value === item.value);
+        item.label = `${filterData[item.id].label}: ${name ? name.text : ''}`;
+        obj[item.id] = item;
+        return obj;
+      }, {});
+    }
+
+    return {};
+  };
 
   const addFilter = (filter) => {
     if (filter.value) {
