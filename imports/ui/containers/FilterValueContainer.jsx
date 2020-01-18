@@ -1,24 +1,15 @@
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
-
 import Towns from '../../api/towns/towns.js';
 import NativeSelects from '../components/atoms/NativeSelects.jsx';
 import Filter from '/constants/FilterConstants.js';
+import Gender from '../../../constants/GenderConstants';
 
-const GENDERS = [
-  {
-    id: 'm',
-    name: 'Muski',
-  },
-  {
-    id: 'f',
-    name: 'Zenski',
-  },
-];
+const GENDERS = Object.values(Gender);
 
 const mapTownsToOptions = (towns) => towns.map((town) => ({ text: town.name, value: town._id }));
 const mapGendersToOptions = (genders) => genders.map((gender) => (
-  { text: gender.name, value: gender.id }
+  { text: gender.label, value: gender.id }
 ));
 
 const getTowns = () => {
