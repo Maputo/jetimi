@@ -1,10 +1,13 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 
-export default class AddPage extends React.Component {
+class AddPage extends React.Component {
+
   render() {
     return (
-      null
+      <React.Fragment>
+      </React.Fragment>
     );
   }
 }
+
+export default AddPage;

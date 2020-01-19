@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FiltersAndChipsContainer from '../../containers/FiltersAndChipsContainer.jsx';
 import BottomAppBar from '../../components/molecules/BottomAppBar.jsx';
 import CustomTable from '../../components/atoms/CustomTable.jsx';
+import AddProtege from '../../components/organisms/AddProtege.jsx';
 import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../../../utils/DefaultProps.js';
 
 const useStyles = makeStyles((theme) => ({
@@ -19,9 +20,18 @@ const useStyles = makeStyles((theme) => ({
 const ProtegesPage = (props) => {
   const classes = useStyles();
   const { proteges = [], history } = props;
+  const [open, setOpen] = React.useState(false);
 
   const handleClick = (event, name) => { // eslint-disable-line no-unused-vars
     history.push('/p/profile');
+  };
+
+  const onModalClose = () => {
+    setOpen(false);
+  };
+
+  const bottomBarAddClick = () => {
+    setOpen(true);
   };
 
   return (
@@ -29,7 +39,8 @@ const ProtegesPage = (props) => {
       <FiltersAndChipsContainer />
       <CustomTable entries={proteges} onRowClick={handleClick} />
       <div className={classes.filler} />
-      <BottomAppBar />
+      <BottomAppBar onAdd={bottomBarAddClick} />
+      <AddProtege open={open} onModalClose={onModalClose} />
     </div>
   );
 };
