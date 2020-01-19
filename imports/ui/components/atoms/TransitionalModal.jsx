@@ -6,17 +6,36 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 
 const styles = (theme) => ({
-  modal: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  // modal: {
+  //   display: 'flex',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   overflow: 'scroll',
+  //   maxHeight: '90%',
+  // },
+  // paper: {
+  //   backgroundColor: theme.palette.background.paper,
+  //   border: '2px solid #000',
+  //   boxShadow: theme.shadows[5],
+  //   padding: theme.spacing(2, 4, 3),
+  // },
+  modal:{
+    position:'absolute',
+    top:'10%',
+    left:'10%',
+    overflow:'hidden',
+    height:'100%',
+    maxHeight: 500,
+    display:'block'
   },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+  header: {
+    padding: '12px 0',
+    borderBottom: '1px solid darkgrey'
   },
+  content: {
+    padding: 12,
+    overflow: 'scroll'
+  }
 });
 
 class TransitionalModal extends React.Component {
@@ -37,7 +56,7 @@ class TransitionalModal extends React.Component {
         }}
       >
         <Fade in={open}>
-          <div className={classes.paper}>
+          <div className={classes.header}>
             {children}
           </div>
         </Fade>
