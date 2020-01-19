@@ -8,10 +8,10 @@ import TableCell from '@material-ui/core/TableCell';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import EnhancedTableHead from '../../components/molecules/EnhancedTableHead.jsx';
 import FiltersAndChipsContainer from '../../containers/FiltersAndChipsContainer.jsx';
+import BottomAppBar from '../../components/molecules/BottomAppBar.jsx';
+import { EMPTY_ARRAY, EMPTY_OBJECT } from '../../../../utils/DefaultProps.js';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -80,6 +80,9 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
+  filler: {
+    height: theme.spacing(6),
+  },
 }));
 
 const ProtegesPage = (props) => {
@@ -87,8 +90,7 @@ const ProtegesPage = (props) => {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('age');
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const { proteges = [], history } = props;
 
@@ -107,12 +109,9 @@ const ProtegesPage = (props) => {
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    const rowsSelection = parseInt(event.target.value, 10);
+    setRowsPerPage(rowsSelection);
     setPage(0);
-  };
-
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
   };
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, proteges.length - page * rowsPerPage);
@@ -125,7 +124,7 @@ const ProtegesPage = (props) => {
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
+            size="medium"
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -166,7 +165,7 @@ const ProtegesPage = (props) => {
                   );
                 })}
               {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                <TableRow style={{ height: 53 }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
@@ -174,7 +173,7 @@ const ProtegesPage = (props) => {
           </Table>
         </div>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={[10, 25, 50]}
           component="div"
           count={proteges.length}
           rowsPerPage={rowsPerPage}
@@ -183,10 +182,8 @@ const ProtegesPage = (props) => {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
+      <div className={classes.filler} />
+      <BottomAppBar />
     </div>
   );
 };
@@ -194,6 +191,11 @@ const ProtegesPage = (props) => {
 ProtegesPage.propTypes = {
   history: PropTypes.object,
   proteges: PropTypes.array,
+};
+
+ProtegesPage.defaultProps = {
+  history: EMPTY_OBJECT,
+  proteges: EMPTY_ARRAY,
 };
 
 export default withRouter(ProtegesPage);
