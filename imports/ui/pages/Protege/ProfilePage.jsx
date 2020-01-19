@@ -79,10 +79,10 @@ export default function ProfilePage() {
   return (
     <div>
       <Grid container justify="center" alignItems="center">
-        <Avatar alt="Jetimi Sandzaka" src="/logo.jpg" className={classes.bigAvatar} />
+        <Avatar alt="Jetimi Sandžaka" src="/logo.jpg" className={classes.bigAvatar} />
       </Grid>
       <Grid container justify="center" alignItems="center">
-        <h2>Jetimi Sandzaka</h2>
+        <h2>Jetimi Sandžaka</h2>
       </Grid>
       <Grid container justify="center" alignItems="center">
         {SimpleCard()}
