@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import { map } from 'underscore';
 import NativeSelects from '../atoms/NativeSelects.jsx';
-import { EMPTY_OBJECT, NOOP } from '/helpers/DefaultProps.js';
+import { NOOP, EMPTY_OBJECT } from '../../../../utils/DefaultProps.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {

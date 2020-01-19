@@ -5,7 +5,7 @@ import { lighten, makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Filters from '../molecules/Filters.jsx';
 import Chips from '../atoms/Chips.jsx';
-import { mapParamsToFilters } from '../../../../helpers/FilterHelpers';
+import { mapParamsToFilters } from '../../../../utils/FilterHelpers';
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {

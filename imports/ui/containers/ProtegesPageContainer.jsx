@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { extend } from 'underscore';
 
 import ProtegesPage from '../pages/Protege/ProtegesPage.jsx';
-import { mapParamsToFilters } from '../../../helpers/FilterHelpers.js';
+import { mapParamsToFilters } from '../../../utils/FilterHelpers.js';
 
 const protegesFull = new Meteor.Collection('protegesFull');
 
