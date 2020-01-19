@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
-import { EMPTY_ARRAY, NOOP } from '../../../../constants/DefaultProps';
+import { EMPTY_ARRAY, NOOP } from '../../../../helpers/DefaultProps';
 
 const useStyles = makeStyles((theme) => ({
   root: {

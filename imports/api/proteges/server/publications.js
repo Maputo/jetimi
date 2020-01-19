@@ -13,7 +13,7 @@ Meteor.publish('proteges.public', function protegesPublic() {
   });
 });
 
-Meteor.publish('proteges.addresses', function () {
+Meteor.publish('proteges.full', function () {
   ReactiveAggregate(this, Proteges, [{
     $lookup: {
       from: 'Addresses',
@@ -33,5 +33,5 @@ Meteor.publish('proteges.addresses', function () {
       },
   }, {
     $unwind: '$town',
-  }], { clientCollection: 'protegesAddresses' });
+  }], { clientCollection: 'protegesFull' });
 });

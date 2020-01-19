@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import Towns from '../../api/towns/towns.js';
-import Gender from '../../../constants/GenderConstants';
+import Gender from '../../../helpers/GenderConstants';
 import FiltersAndChips from '../components/organisms/FiltersAndChips.jsx';
 
 const GENDERS = Object.values(Gender);

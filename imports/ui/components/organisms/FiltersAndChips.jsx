@@ -5,6 +5,7 @@ import { lighten, makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Filters from '../molecules/Filters.jsx';
 import Chips from '../atoms/Chips.jsx';
+import { mapParamsToFilters } from '../../../../helpers/FilterHelpers';
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
@@ -41,27 +42,14 @@ const FiltersAndChips = (props) => {
   const classes = useToolbarStyles();
   const { location, history, filterData } = props;
 
-  const mapParamsToFilters = (query) => {
-    const filterParams = query
-      ? query.split('?')[1].split('&')
-        .find((param) => param.startsWith('filter'))
-        .split('=')[1]
-      : '';
-
-    if (filterParams) {
-      return filterParams.split(':')
-        .map((param) => {
-          const keyValue = param.split('-');
-          return ({ id: keyValue[0], value: keyValue[1] });
-        }).reduce((obj, item) => {
-          const name = filterData[item.id].values.find((f) => f.value === item.value);
-          item.label = `${filterData[item.id].label}: ${name ? name.text : ''}`;
-          obj[item.id] = item;
-          return obj;
-        }, {});
-    }
-
-    return {};
+  const getFilters = (query) => {
+    return mapParamsToFilters(query)
+      .reduce((obj, item) => {
+        const name = filterData[item.id].values.find((f) => f.value === item.value);
+        item.label = `${filterData[item.id].label}: ${name ? name.text : ''}`;
+        obj[item.id] = item;
+        return obj;
+      }, {});
   };
 
   const updateFilters = (filters) => {
@@ -73,19 +61,19 @@ const FiltersAndChips = (props) => {
 
   const addFilter = (filter) => {
     if (filter.value) {
-      const filters = mapParamsToFilters(location.search);
+      const filters = getFilters(location.search);
       filters[filter.id] = filter;
       updateFilters(mapParamsToString(Object.values(filters)));
     }
   };
 
   const removeFilter = (filter) => {
-    const filters = mapParamsToFilters(location.search);
+    const filters = getFilters(location.search);
     delete filters[filter.id];
     updateFilters(mapParamsToString(Object.values(filters)));
   };
 
-  const chips = Object.values(mapParamsToFilters(location.search)) || [];
+  const chips = Object.values(getFilters(location.search)) || [];
 
   return (
     <Toolbar>

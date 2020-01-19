@@ -4,8 +4,7 @@ import { withRouter } from 'react-router';
 import { makeStyles } from '@material-ui/core/styles';
 import { map } from 'underscore';
 import NativeSelects from '../atoms/NativeSelects.jsx';
-import Filter from '/constants/FilterConstants.js';
-import { EMPTY_OBJECT, NOOP } from '/constants/DefaultProps.js';
+import { EMPTY_OBJECT, NOOP } from '/helpers/DefaultProps.js';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,8 +13,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0.5),
   },
 }));
-
-export const FILTERS = Object.values(Filter);
 
 const mapFiltersToOptions = (filters) => map(filters, (value, key) => (
   { text: value.label, value: key }
