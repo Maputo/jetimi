@@ -1,93 +1,140 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
-import Grid from '@material-ui/core/Grid';
-
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Gender from '../../../../utils/GenderConstants.js';
+import Radio from '@material-ui/core/Radio';
 
-const useStyles = makeStyles({
-  avatar: {
-    margin: 10,
+const useStylesAvatar = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    justifyContent: 'center',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
   },
-  bigAvatar: {
-    margin: 10,
-    width: 150,
-    height: 150,
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
   },
-});
-
-const useStylesCard = makeStyles(theme => ({
-  card: {
-    minWidth: 350,
-    margin: 10,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
+  large: {
+    width: theme.spacing(30),
+    height: theme.spacing(30),
   },
 }));
 
-function SimpleCard() {
-  const classes = useStylesCard();
-  const bull = <span className={classes.bullet}>•</span>;
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(0.50, 2),
+      minWidth: 300,
+    },
+    '& .MuiTextField-multiline': {
+      fontSize: 7,
+    },
+  },
+  formControl: {
+    margin: theme.spacing(0.5, 2),
+  },
+  buttons: {
+    display: 'flex',
+    flex: '1 1 100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    margin: theme.spacing(2, 2),
 
-  return (
-    <Card className={classes.card}>
-      <CardContent>
-        <Typography className={classes.title} color="textSecondary" gutterBottom align="right">
-          Osnovni podaci
-        </Typography>
-        <Typography variant="h5" component="h2">
-          be
-          {bull}
-          nev
-          {bull}o{bull}
-          lent
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          adjective
-        </Typography>
-        <Typography variant="body2" component="p">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
-  );
-}
+    '& > *': {
+      width: 135,
+      marginLeft: theme.spacing(2),
+    },
+  },
+  cardContainer: {
+    display: 'flex',
+    flex: '1 1 100%',
+    flexDirection: 'row',
+    margin: theme.spacing(2, 2),
+    flexWrap: 'wrap',
+  },
+  card: {
+    maxWidth: 500,
+    margin: 10,
+  },
+}));
 
 export default function ProfilePage() {
   const classes = useStyles();
+  const avatarClasses = useStylesAvatar();
+
+  const [gender, setGender] = React.useState(Gender.m.id);
+  const [sponsor, setSponsor] = React.useState(false);
+
+  const handleGenderChange = (event) => {
+    setGender(event.target.value);
+  };
+
+  const handleSponsorChange = (event) => {
+    setSponsor(event.target.value === 'Da');
+  };
 
   return (
-    <div>
-      <Grid container justify="center" alignItems="center">
-        <Avatar alt="Jetimi Sandžaka" src="/logo.jpg" className={classes.bigAvatar} />
-      </Grid>
-      <Grid container justify="center" alignItems="center">
-        <h2>Jetimi Sandžaka</h2>
-      </Grid>
-      <Grid container justify="center" alignItems="center">
-        {SimpleCard()}
-        {SimpleCard()}
-      </Grid>
+    <div className={classes.root}>
+      <CssBaseline />
+      <form noValidate autoComplete="off">
+        <div className={classes.cardContainer}>
+          <Paper className={classes.card} variant="elevation" elevation={0}>
+            <div className={avatarClasses.root}>
+              <Avatar alt="Jetimi Sandžaka" src="/logo.jpg" className={avatarClasses.large} />
+            </div>
+            <div>
+              <TextField required id="name" label="Ime i prezime" />
+              <TextField required id="address" label="Adresa" />
+              <TextField required id="town" label="Grad" />
+            </div>
+          </Paper>
+
+          <Paper className={classes.card} variant="elevation" elevation={0}>
+            <TextField required id="date-of-birth" label="Datum rođenja" type="date"
+                       InputLabelProps={{ shrink: true }} />
+            <TextField id="join-date" label="Datum pristupa" type="date" InputLabelProps={{ shrink: true }} />
+            <FormControl component="fieldset" className={classes.formControl}>
+              <FormLabel component="legend">Pol</FormLabel>
+              <RadioGroup aria-label="gender" name="gender" value={gender} onChange={handleGenderChange}>
+                <FormControlLabel value={Gender.m.id} control={<Radio />} label={Gender.m.label} />
+                <FormControlLabel value={Gender.f.id} control={<Radio />} label={Gender.f.label} />
+              </RadioGroup>
+            </FormControl>
+            <FormControl component="fieldset" className={classes.formControl}>
+              <FormLabel component="legend">Ima sponzora</FormLabel>
+              <RadioGroup aria-label="gender" name="sponsor" value={sponsor ? 'Da' : 'Ne'}
+                          onChange={handleSponsorChange}>
+                <FormControlLabel value="Da" control={<Radio />} label="Da" />
+                <FormControlLabel value="Ne" control={<Radio />} label="Ne" />
+              </RadioGroup>
+            </FormControl>
+            <TextField
+              id="additionalInfo"
+              label="Dodatne informacije"
+              multiline
+              variant="filled"
+            />
+            <div className={classes.buttons}>
+              <Button variant="outlined" color="default">
+                Odustani
+              </Button>
+              <Button variant="contained" color="primary">
+                Potvrdi
+              </Button>
+            </div>
+          </Paper>
+        </div>
+      </form>
     </div>
   );
 }

@@ -12,28 +12,6 @@ import TransitionalModal from '../atoms/TransitionalModal.jsx';
 import Gender from '../../../../utils/GenderConstants.js';
 import Button from '@material-ui/core/Button';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(0.50, 2),
-      width: 300,
-    },
-  },
-  formControl: {
-    margin: theme.spacing(0.5, 2),
-  },
-  buttons: {
-    display: 'flex',
-    flex: '1 1 100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: theme.spacing(2, 2),
-
-    '& > *': {
-      width: '45%',
-    },
-  },
-}));
 
 const AddProtege = (props) => {
   const classes = useStyles();
