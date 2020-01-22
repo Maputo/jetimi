@@ -25,6 +25,7 @@ const mapProtegesDataForReact = (proteges) => {
   const currentYear = new Date().getFullYear();
 
   return proteges.map((protege) => ({
+    id: protege._id,
     name: protege.name,
     age: currentYear - protege.dateOfBirth.getFullYear(),
     address: `${protege.address.name}, ${protege.town.name}`,

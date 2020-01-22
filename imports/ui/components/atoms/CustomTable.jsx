@@ -128,7 +128,7 @@ const CustomTable = (props) => {
                 return (
                   <TableRow
                     hover
-                    onClick={(event) => onRowClick(event, row.name)}
+                    onClick={() => onRowClick(row)}
                     role="checkbox"
                     tabIndex={-1}
                     key={row.name}

@@ -12,7 +12,7 @@ import TransitionalModal from '../atoms/TransitionalModal.jsx';
 import Gender from '../../../../utils/GenderConstants.js';
 import Button from '@material-ui/core/Button';
 
-
+const useStyles = makeStyles();
 const AddProtege = (props) => {
   const classes = useStyles();
   const [gender, setGender] = React.useState(Gender.m.id);

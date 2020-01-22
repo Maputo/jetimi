@@ -35,3 +35,26 @@ Meteor.publish('proteges.full', function () {
     $unwind: '$town',
   }], { clientCollection: 'protegesFull' });
 });
+
+Meteor.publish('proteges.single', function () {
+  ReactiveAggregate(this, Proteges, [{
+    $lookup: {
+      from: 'Addresses',
+      localField: 'addressId',
+      foreignField: '_id',
+      as: 'address',
+    },
+  }, {
+    $unwind: '$address',
+  }, {
+    $lookup:
+      {
+        from: 'Towns',
+        localField: 'address.townId',
+        foreignField: '_id',
+        as: 'town',
+      },
+  }, {
+    $unwind: '$town',
+  }], { clientCollection: 'protegesSingle' });
+});

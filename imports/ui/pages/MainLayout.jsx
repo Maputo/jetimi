@@ -8,8 +8,9 @@ import ButtonAppBar from '../components/molecules/ButtonAppBar.jsx';
 import Home from './Home.jsx';
 import About from './About.jsx';
 import ProtegesPageContainer from '../containers/ProtegesPageContainer.jsx';
-import Profile from './Protege/ProfilePage.jsx';
+import ProfilePageContainer from '../containers/ProfilePageContainer.jsx';
 import NotFound from './NotFound.jsx';
+import AddProtege from '../components/organisms/AddProtege.jsx';
 
 const theme = createMuiTheme();
 
@@ -23,7 +24,8 @@ const MainLayout = () => (
         <Route exact path="/" component={Home} />
         <Route path="/about" component={About} />
         <Route path="/p/list" component={() => <ProtegesPageContainer />} />
-        <Route path="/p/profile" component={Profile} />
+        <Route path="/p/:id" component={() => <ProfilePageContainer />} />
+        <Route path="/p/new" component={AddProtege} />
         <Route component={NotFound} />
       </Switch>
     </div>
