@@ -104,9 +104,35 @@ class ProfilePage extends React.Component {
     const { classes } = this.props;
     const { protege, editing } = this.state;
 
-    // const [gender, setGender] = React.useState(Gender.m.id);
-    // const [sponsor, setSponsor] = React.useState(false);
-    // const [p, setP] = React.useState(protege);
+    const onEditCallback = () => {
+      if (!editing) {
+        return () => this.setState({
+          editing: true,
+        });
+      }
+
+      return null;
+    };
+
+    const onConfirmCallback = () => {
+      if (editing) {
+        return () => this.setState({
+          editing: false,
+        });
+      }
+
+      return null;
+    };
+
+    const onCancelCallback = () => {
+      if (editing) {
+        return () => this.setState({
+          editing: false,
+        });
+      }
+
+      return null;
+    };
 
     const handleGenderChange = (event) => {
       // setGender(event.target.value);
@@ -161,7 +187,7 @@ class ProfilePage extends React.Component {
                   type="date"
                   InputLabelProps={{ shrink: true }}
                   InputProps={{ readOnly: !editing }}
-                  value={protege.dateOfBirth}
+                  defaultValue={protege.dateOfBirth}
                 />
                 <TextField
                   className={classes.text}
@@ -170,7 +196,7 @@ class ProfilePage extends React.Component {
                   type="date"
                   InputLabelProps={{ shrink: true }}
                   InputProps={{ readOnly: !editing }}
-                  value={protege.joinDate}
+                  defaultValue={protege.joinDate}
                 />
                 <div className={classes.text}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 20 }}>
@@ -243,7 +269,11 @@ class ProfilePage extends React.Component {
       <div className={classes.root}>
         <CssBaseline />
         {renderForm()}
-        <BottomAppBar />
+        <BottomAppBar
+          onEdit={onEditCallback()}
+          onCancel={onCancelCallback()}
+          onConfirm={onConfirmCallback()}
+        />
       </div>
     );
   }
