@@ -5,8 +5,7 @@ import { extend } from 'underscore';
 
 import ProtegesPage from '../pages/Protege/ProtegesPage.jsx';
 import { mapParamsToFilters } from '../../../utils/FilterHelpers.js';
-
-const protegesFull = new Meteor.Collection('protegesFull');
+import { ProtegesAggregate} from '../../collections.js';
 
 const getQuery = (param) => {
   switch (param.id) {
@@ -35,11 +34,11 @@ const mapProtegesDataForReact = (proteges) => {
 };
 
 const ProtegesPageContainer = withTracker((props) => {
-  const publicHandle = Meteor.subscribe('proteges.full'); // eslint-disable-line no-unused-vars
+  const publicHandle = Meteor.subscribe('proteges.aggregate'); // eslint-disable-line no-unused-vars
 
   const { location } = props;
   const params = mapParamsToFilters(location.search);
-  const protegesData = protegesFull.find(buildQuery(params)).fetch();
+  const protegesData = ProtegesAggregate.find(buildQuery(params)).fetch();
   return {
     // user: Meteor.user(),
     // loading: !publicHandle.ready(),

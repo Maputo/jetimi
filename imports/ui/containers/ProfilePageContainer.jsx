@@ -3,21 +3,8 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter } from 'react-router';
 import ProfilePage from '../pages/Protege/ProfilePage.jsx';
 import { EMPTY_OBJECT } from '../../../utils/DefaultProps.js';
-
-const protegesSingle = new Meteor.Collection('protegesSingle');
-
-const updateProtege = (id, obj) => {
-  Meteor.call('proteges.update', {
-    id,
-    obj,
-  }, (err, res) => {
-    if (err) {
-      console.error(err);
-    } else {
-      console.info('success', res);
-    }
-  });
-};
+import { update } from '../../api/proteges/methods.js';
+import { ProtegesAggregate } from '../../collections.js';
 
 const convertDate = (date) => {
   const fullYear = date.getFullYear();
@@ -52,16 +39,25 @@ const mapProtegeDataForReact = (proteges = []) => {
 };
 
 const ProfilePageContainer = withTracker((props) => {
-  Meteor.subscribe('proteges.single');
+  const publicHandle = Meteor.subscribe('proteges.aggregate');
+
+  const updateProfile = (id, obj) => {
+    update.call({
+      id,
+      name: obj.name,
+    }, (err) => console.log(err));
+  };
 
   const { match } = props;
   const { params = {} } = match;
   const { id } = params;
 
-  const protegesData = protegesSingle.find({ _id: { $eq: id } }).fetch();
+  const protegesData = ProtegesAggregate.find({ _id: { $eq: id } }).fetch();
 
   return {
     protege: mapProtegeDataForReact(protegesData),
+    onUpdate: updateProfile,
+    loading: !publicHandle.ready(),
   };
 })(ProfilePage);
 
