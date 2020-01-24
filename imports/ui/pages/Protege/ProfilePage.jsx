@@ -87,22 +87,22 @@ class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      protege: {},
       editing: false,
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (!isEqual(nextProps.protege, prevState)) {
-      return { protege: nextProps.protege, editing: prevState.editing };
+    if (!isEqual(nextProps.protege, prevState) && !prevState.editing) {
+      return { ...nextProps.protege, editing: prevState.editing };
     }
 
     return prevState;
   }
 
   render() {
-    const { classes } = this.props;
-    const { protege, editing } = this.state;
+    const { props, state } = this;
+    const { classes } = props;
+    const { editing } = state;
 
     const onEditCallback = () => {
       if (!editing) {
@@ -128,22 +128,19 @@ class ProfilePage extends React.Component {
       if (editing) {
         return () => this.setState({
           editing: false,
+          ...props.protege,
         });
       }
 
       return null;
     };
 
-    const handleGenderChange = (event) => {
-      // setGender(event.target.value);
-    };
-
-    const handleSponsorChange = (event) => {
-      // setSponsor(event.target.value === 'Da');
+    const handleChange = (field) => (event) => {
+      this.setState({ [field]: event.target.value });
     };
 
     const renderForm = () => {
-      if (protege.name) {
+      if (state.name) {
         return (
           <form noValidate autoComplete="off">
             <div className={classes.cardContainer}>
@@ -158,7 +155,8 @@ class ProfilePage extends React.Component {
                     label="Ime i prezime"
                     InputLabelProps={{ shrink: true }}
                     InputProps={{ readOnly: !editing }}
-                    defaultValue={protege.name}
+                    value={state.name}
+                    onChange={handleChange('name')}
                   />
                   <TextField
                     className={classes.text}
@@ -166,7 +164,8 @@ class ProfilePage extends React.Component {
                     label="Adresa"
                     InputLabelProps={{ shrink: true }}
                     InputProps={{ readOnly: !editing }}
-                    defaultValue={protege.address}
+                    value={state.address}
+                    onChange={handleChange('address')}
                   />
                   <TextField
                     className={classes.text}
@@ -174,7 +173,8 @@ class ProfilePage extends React.Component {
                     label="Grad"
                     InputLabelProps={{ shrink: true }}
                     InputProps={{ readOnly: !editing }}
-                    defaultValue={protege.town}
+                    value={state.town}
+                    onChange={handleChange('town')}
                   />
                 </div>
               </Paper>
@@ -187,7 +187,8 @@ class ProfilePage extends React.Component {
                   type="date"
                   InputLabelProps={{ shrink: true }}
                   InputProps={{ readOnly: !editing }}
-                  defaultValue={protege.dateOfBirth}
+                  value={state.dateOfBirth}
+                  onChange={handleChange('dateOfBirth')}
                 />
                 <TextField
                   className={classes.text}
@@ -196,7 +197,8 @@ class ProfilePage extends React.Component {
                   type="date"
                   InputLabelProps={{ shrink: true }}
                   InputProps={{ readOnly: !editing }}
-                  defaultValue={protege.joinDate}
+                  value={state.joinDate}
+                  onChange={handleChange('joinDate')}
                 />
                 <div className={classes.text}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 20 }}>
@@ -205,8 +207,8 @@ class ProfilePage extends React.Component {
                       <RadioGroup
                         aria-label="gender"
                         name="gender"
-                        defaultValue={protege.gender}
-                        onChange={handleGenderChange}
+                        value={state.gender}
+                        onChange={handleChange('gender')}
                       >
                         <FormControlLabel
                           disabled={!editing}
@@ -227,8 +229,8 @@ class ProfilePage extends React.Component {
                       <RadioGroup
                         aria-label="gender"
                         name="sponsor"
-                        defaultValue={protege.sponsor}
-                        onChange={handleSponsorChange}
+                        value={state.sponsor}
+                        onChange={handleChange('sponsor')}
                       >
                         <FormControlLabel
                           disabled={!editing}
@@ -253,7 +255,8 @@ class ProfilePage extends React.Component {
                   variant="filled"
                   InputLabelProps={{ shrink: true }}
                   InputProps={{ readOnly: !editing }}
-                  defaultValue={protege.text}
+                  value={state.text}
+                  onChange={handleChange('text')}
                 />
               </Paper>
             </div>
