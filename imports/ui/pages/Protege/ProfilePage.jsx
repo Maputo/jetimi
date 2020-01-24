@@ -14,7 +14,8 @@ import Radio from '@material-ui/core/Radio';
 import Gender from '../../../../utils/GenderConstants.js';
 import Filler from '../../components/atoms/Filler.jsx';
 import BottomAppBar from '../../components/molecules/BottomAppBar.jsx';
-import { EMPTY_OBJECT } from '../../../../utils/DefaultProps.js';
+import { EMPTY_OBJECT, NOOP } from '../../../../utils/DefaultProps.js';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = (theme) => ({
   root: {
@@ -101,7 +102,7 @@ class ProfilePage extends React.Component {
 
   render() {
     const { props, state } = this;
-    const { classes } = props;
+    const { classes, onUpdate } = props;
     const { editing } = state;
 
     const onEditCallback = () => {
@@ -116,9 +117,13 @@ class ProfilePage extends React.Component {
 
     const onConfirmCallback = () => {
       if (editing) {
-        return () => this.setState({
-          editing: false,
-        });
+        return () => {
+          onUpdate(state.id, state);
+
+          this.setState({
+            editing: false,
+          });
+        };
       }
 
       return null;
@@ -140,7 +145,7 @@ class ProfilePage extends React.Component {
     };
 
     const renderForm = () => {
-      if (state.name) {
+      if (state.id) {
         return (
           <form noValidate autoComplete="off">
             <div className={classes.cardContainer}>
@@ -287,9 +292,11 @@ export default withStyles(styles)(ProfilePage);
 ProfilePage.propTypes = {
   protege: PropTypes.object,
   classes: PropTypes.object,
+  onUpdate: PropTypes.func,
 };
 
 ProfilePage.defaultProps = {
   protege: EMPTY_OBJECT,
   classes: EMPTY_OBJECT,
+  onUpdate: NOOP,
 };
