@@ -6,6 +6,19 @@ import { EMPTY_OBJECT } from '../../../utils/DefaultProps.js';
 
 const protegesSingle = new Meteor.Collection('protegesSingle');
 
+const updateProtege = (id, obj) => {
+  Meteor.call('proteges.update', {
+    id,
+    obj,
+  }, (err, res) => {
+    if (err) {
+      console.error(err);
+    } else {
+      console.info('success', res);
+    }
+  });
+};
+
 const convertDate = (date) => {
   const fullYear = date.getFullYear();
   let month = (date.getMonth() + 1).toString();
