@@ -36,3 +36,4 @@ react-meteor-data
 msavin:mongol
 aldeed:simple-schema
 tunguska:reactive-aggregate
+mdg:validated-method
