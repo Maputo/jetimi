@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { forEach, isEqual } from 'underscore';
+import { forEach, isEqual, property } from 'underscore';
 import { withStyles } from '@material-ui/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
@@ -84,7 +84,6 @@ const styles = (theme) => ({
   },
 });
 
-
 const separateChangedFields = (newObj, origObj) => {
   const diffObject = {};
   forEach(origObj, (value, key) => {
@@ -96,9 +95,25 @@ const separateChangedFields = (newObj, origObj) => {
   return diffObject;
 };
 
+const processAddressField = (diff, refAddress, stateAddress) => {
+  if (refAddress && stateAddress !== refAddress) {
+    diff.address = refAddress;
+    diff.addressId = null;
+  }
+};
+
+const processTownField = (diff, refTown, stateTown) => {
+  if (refTown && stateTown !== refTown) {
+    diff.town = refTown;
+    diff.townId = null;
+  }
+};
+
 class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
+    this.addressRef = React.createRef();
+    this.townRef = React.createRef();
     this.state = {
       editing: false,
     };
@@ -131,7 +146,14 @@ class ProfilePage extends React.Component {
       if (editing) {
         return () => {
           const diff = separateChangedFields(state, props.protege);
-          onUpdate(state.id, diff);
+
+          const refAddress = property(['addressRef', 'current', 'value'])(this);
+          processAddressField(diff, refAddress, state.address);
+
+          const refTown = property(['townRef', 'current', 'value'])(this);
+          processTownField(diff, refTown, state.town);
+
+          // onUpdate(state.id, diff);
 
           this.setState({
             editing: false,
@@ -157,8 +179,14 @@ class ProfilePage extends React.Component {
       this.setState({ [field]: event.target.value });
     };
 
+    // workaround for entering new address, due to an Autocomplete bug
     const handleAutocompleteChange = (field) => (event, value) => {
-      this.setState({ [field]: value.text });
+      if (typeof value === 'string' || value instanceof String) {
+        this.setState({ [field]: value });
+      } else {
+        const fieldId = `${field}Id`;
+        this.setState({ [field]: value.text, [fieldId]: value.value });
+      }
     };
 
     const renderForm = () => {
@@ -183,6 +211,7 @@ class ProfilePage extends React.Component {
                     id="address"
                     freeSolo
                     autoHighlight
+                    disableClearable
                     disabled={!editing}
                     options={props.addresses}
                     getOptionLabel={(option) => option.text}
@@ -196,6 +225,7 @@ class ProfilePage extends React.Component {
                         label="Adresa"
                         margin="normal"
                         fullWidth
+                        inputRef={this.addressRef}
                       />
                     )}
                   />
@@ -203,6 +233,7 @@ class ProfilePage extends React.Component {
                     id="town"
                     freeSolo
                     autoHighlight
+                    disableClearable
                     disabled={!editing}
                     options={props.towns}
                     getOptionLabel={(option) => option.text}
@@ -213,9 +244,10 @@ class ProfilePage extends React.Component {
                       <TextField
                         {...params}
                         className={classes.text}
-                        label="Grad"
+                        label="Town"
                         margin="normal"
                         fullWidth
+                        inputRef={this.townRef}
                       />
                     )}
                   />
