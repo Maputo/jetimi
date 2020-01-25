@@ -5,7 +5,7 @@ import { extend } from 'underscore';
 
 import ProtegesPage from '../pages/Protege/ProtegesPage.jsx';
 import { mapParamsToFilters } from '../../../utils/FilterHelpers.js';
-import { ProtegesAggregate} from '../../collections.js';
+import { ProtegesAggregate } from '../../api/collections.js';
 
 const getQuery = (param) => {
   switch (param.id) {

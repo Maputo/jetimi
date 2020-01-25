@@ -1,22 +1,31 @@
 import { Meteor } from 'meteor/meteor';
+import { Mongo } from 'meteor/mongo';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { contains, pluck } from 'underscore';
-import { Mongo } from 'meteor/mongo';
 
 import Proteges from './proteges.js';
 
+const PROTEGE_VALIDATOR = new SimpleSchema({
+  id: { type: String },
+  name: { type: String, optional: true },
+  dateOfBirth: { type: Date, optional: true },
+  joinDate: { type: Date, optional: true },
+  addressId: { type: String, optional: true },
+  text: { type: String, optional: true },
+  sponsor: { type: Boolean, optional: true },
+  situation: { type: Number, optional: true },
+  gender: { type: String, optional: true },
+}).validator();
+
 const update = new ValidatedMethod({
   name: 'proteges.update',
-  validate: new SimpleSchema({
-    id: { type: String },
-    name: { type: String },
-  }).validator(),
-  run({ id, name }) {
-    const mongoId = new Mongo.Collection.ObjectID(id);
+  validate: PROTEGE_VALIDATOR,
+  run({ ...obj }) {
+    const mongoId = new Mongo.Collection.ObjectID(obj.id);
     Proteges.update(mongoId, {
-      $set: { name },
+      $set: { ...obj },
     });
   },
 });

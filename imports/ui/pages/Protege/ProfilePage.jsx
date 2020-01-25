@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isEqual } from 'underscore';
+import { difference, isEqual, pairs, forEach } from 'underscore';
 import { withStyles } from '@material-ui/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
@@ -15,7 +15,6 @@ import Gender from '../../../../utils/GenderConstants.js';
 import Filler from '../../components/atoms/Filler.jsx';
 import BottomAppBar from '../../components/molecules/BottomAppBar.jsx';
 import { EMPTY_OBJECT, NOOP } from '../../../../utils/DefaultProps.js';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = (theme) => ({
   root: {
@@ -84,6 +83,18 @@ const styles = (theme) => ({
   },
 });
 
+
+const separateChangedFields = (newObj, origObj) => {
+  const diffObject = {};
+  forEach(origObj, (value, key) => {
+    if (newObj[key] !== value) {
+      diffObject[key] = newObj[key];
+    }
+  });
+
+  return diffObject;
+};
+
 class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
@@ -118,7 +129,8 @@ class ProfilePage extends React.Component {
     const onConfirmCallback = () => {
       if (editing) {
         return () => {
-          onUpdate(state.id, state);
+          const diff = separateChangedFields(state, props.protege);
+          onUpdate(state.id, diff);
 
           this.setState({
             editing: false,

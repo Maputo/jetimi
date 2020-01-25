@@ -4,7 +4,17 @@ import { withRouter } from 'react-router';
 import ProfilePage from '../pages/Protege/ProfilePage.jsx';
 import { EMPTY_OBJECT } from '../../../utils/DefaultProps.js';
 import { update } from '../../api/proteges/methods.js';
-import { ProtegesAggregate } from '../../collections.js';
+import { ProtegesAggregate } from '../../api/collections.js';
+
+const updateProfile = (id, obj) => {
+  update.call({ id, ...obj }, (err) => {
+    if (err) {
+      // log error or whatever
+    } else {
+      // success
+    }
+  });
+};
 
 const convertDate = (date) => {
   const fullYear = date.getFullYear();
@@ -40,13 +50,6 @@ const mapProtegeDataForReact = (proteges = []) => {
 
 const ProfilePageContainer = withTracker((props) => {
   const publicHandle = Meteor.subscribe('proteges.aggregate');
-
-  const updateProfile = (id, obj) => {
-    update.call({
-      id,
-      name: obj.name,
-    }, (err) => console.log(err));
-  };
 
   const { match } = props;
   const { params = {} } = match;
