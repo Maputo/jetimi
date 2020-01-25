@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { difference, isEqual, pairs, forEach } from 'underscore';
+import { forEach, isEqual } from 'underscore';
 import { withStyles } from '@material-ui/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Paper from '@material-ui/core/Paper';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -170,25 +171,31 @@ class ProfilePage extends React.Component {
                     className={classes.text}
                     id="name"
                     label="Ime i prezime"
-                    InputLabelProps={{ shrink: true }}
                     InputProps={{ readOnly: !editing }}
                     value={state.name}
                     onChange={handleChange('name')}
                   />
-                  <TextField
-                    className={classes.text}
+                  <Autocomplete
                     id="address"
-                    label="Adresa"
-                    InputLabelProps={{ shrink: true }}
-                    InputProps={{ readOnly: !editing }}
-                    value={state.address}
-                    onChange={handleChange('address')}
+                    freeSolo
+                    disabled={!editing}
+                    options={[{ name: state.address }, { name: state.name }]}
+                    getOptionLabel={(option) => option.name}
+                    getOptionSelected={(option, value) => option.name === value.name}
+                    value={{ name: state.address }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        className={classes.text}
+                        label="Adresa"
+                        fullWidth
+                      />
+                    )}
                   />
                   <TextField
                     className={classes.text}
                     id="town"
                     label="Grad"
-                    InputLabelProps={{ shrink: true }}
                     InputProps={{ readOnly: !editing }}
                     value={state.town}
                     onChange={handleChange('town')}
