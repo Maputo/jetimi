@@ -15,7 +15,7 @@ import Radio from '@material-ui/core/Radio';
 import Gender from '../../../../utils/GenderConstants.js';
 import Filler from '../../components/atoms/Filler.jsx';
 import BottomAppBar from '../../components/molecules/BottomAppBar.jsx';
-import { EMPTY_OBJECT, NOOP } from '../../../../utils/DefaultProps.js';
+import { EMPTY_ARRAY, EMPTY_OBJECT, NOOP } from '../../../../utils/DefaultProps.js';
 
 const styles = (theme) => ({
   root: {
@@ -114,8 +114,8 @@ class ProfilePage extends React.Component {
 
   render() {
     const { props, state } = this;
-    const { classes, onUpdate } = props;
     const { editing } = state;
+    const { classes, onUpdate } = props;
 
     const onEditCallback = () => {
       if (!editing) {
@@ -157,6 +157,10 @@ class ProfilePage extends React.Component {
       this.setState({ [field]: event.target.value });
     };
 
+    const handleAutocompleteChange = (field) => (event, value) => {
+      this.setState({ [field]: value.text });
+    };
+
     const renderForm = () => {
       if (state.id) {
         return (
@@ -178,27 +182,42 @@ class ProfilePage extends React.Component {
                   <Autocomplete
                     id="address"
                     freeSolo
+                    autoHighlight
                     disabled={!editing}
-                    options={[{ name: state.address }, { name: state.name }]}
-                    getOptionLabel={(option) => option.name}
-                    getOptionSelected={(option, value) => option.name === value.name}
-                    value={{ name: state.address }}
+                    options={props.addresses}
+                    getOptionLabel={(option) => option.text}
+                    getOptionSelected={(option, value) => option.text === value.text}
+                    value={{ text: state.address }}
+                    onChange={handleAutocompleteChange('address')}
                     renderInput={(params) => (
                       <TextField
                         {...params}
                         className={classes.text}
                         label="Adresa"
+                        margin="normal"
                         fullWidth
                       />
                     )}
                   />
-                  <TextField
-                    className={classes.text}
+                  <Autocomplete
                     id="town"
-                    label="Grad"
-                    InputProps={{ readOnly: !editing }}
-                    value={state.town}
-                    onChange={handleChange('town')}
+                    freeSolo
+                    autoHighlight
+                    disabled={!editing}
+                    options={props.towns}
+                    getOptionLabel={(option) => option.text}
+                    getOptionSelected={(option, value) => option.text === value.text}
+                    value={{ text: state.town }}
+                    onChange={handleAutocompleteChange('town')}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        className={classes.text}
+                        label="Grad"
+                        margin="normal"
+                        fullWidth
+                      />
+                    )}
                   />
                 </div>
               </Paper>
@@ -311,11 +330,15 @@ export default withStyles(styles)(ProfilePage);
 ProfilePage.propTypes = {
   protege: PropTypes.object,
   classes: PropTypes.object,
+  addresses: PropTypes.array,
+  towns: PropTypes.array,
   onUpdate: PropTypes.func,
 };
 
 ProfilePage.defaultProps = {
   protege: EMPTY_OBJECT,
   classes: EMPTY_OBJECT,
+  addresses: EMPTY_ARRAY,
+  towns: EMPTY_ARRAY,
   onUpdate: NOOP,
 };
