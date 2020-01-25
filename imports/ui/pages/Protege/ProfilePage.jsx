@@ -153,7 +153,7 @@ class ProfilePage extends React.Component {
           const refTown = property(['townRef', 'current', 'value'])(this);
           processTownField(diff, refTown, state.town);
 
-          // onUpdate(state.id, diff);
+          onUpdate(state.id, diff);
 
           this.setState({
             editing: false,

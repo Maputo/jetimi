@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
@@ -23,8 +22,7 @@ const update = new ValidatedMethod({
   name: 'proteges.update',
   validate: PROTEGE_VALIDATOR,
   run({ ...obj }) {
-    const mongoId = new Mongo.Collection.ObjectID(obj.id);
-    Proteges.update(mongoId, {
+    Proteges.update(obj.id, {
       $set: { ...obj },
     });
   },

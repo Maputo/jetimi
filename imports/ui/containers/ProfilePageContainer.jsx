@@ -1,26 +1,58 @@
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter } from 'react-router';
-import Addresses from '../../api/addresses/addresses.js';
-import ProfilePage from '../pages/Protege/ProfilePage.jsx';
-import { EMPTY_OBJECT } from '../../../utils/DefaultProps.js';
+import { isEmpty, omit, pick } from 'underscore';
 import { update } from '../../api/proteges/methods.js';
 import { ProtegesAggregate } from '../../api/collections.js';
+import Addresses from '../../api/addresses/addresses.js';
 import Towns from '../../api/towns/towns.js';
+import ProfilePage from '../pages/Protege/ProfilePage.jsx';
+import { EMPTY_OBJECT } from '../../../utils/DefaultProps.js';
+
+const updateAddressAndTown = (obj) => {
+  const address = pick(obj, 'address', 'addressId');
+  const town = pick(obj, 'town', 'townId');
+
+  if (!town.townId && town.town) {
+    // insert town
+    // insert address
+    // return addressId
+    return {};
+  }
+
+  if (!address.addressId && address.address) {
+    // insert address
+    // return addressId
+    return {};
+  }
+
+  if (address.addressId) {
+    return { addressId: address.addressId };
+  }
+
+  return {};
+};
 
 const updateProfile = (id, obj) => {
-  update.call({ id, ...obj }, (err) => {
-    if (err) {
-      // log error or whatever
-    } else {
-      // success
-    }
-  });
+  const addressId = updateAddressAndTown(obj);
+  const newObj = omit(obj, 'town', 'townId', 'address', 'addressId');
+
+  const updateObject = { ...newObj, ...addressId };
+  if (!isEmpty(updateObject)) {
+    update.call({ id, ...updateObject }, (err) => {
+      if (err) {
+        console.error('error', err);
+      } else {
+        console.log('Update success: ', id);
+      }
+    });
+  }
 };
 
 const mapAddressesToOptions = (addresses) => addresses.map((address) => (
   { text: address.name, town: address.townId, value: address._id }
 ));
+
 const getAddresses = () => {
   const addresses = Addresses.find().fetch();
   return mapAddressesToOptions(addresses);
