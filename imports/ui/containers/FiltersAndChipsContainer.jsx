@@ -7,15 +7,14 @@ import FiltersAndChips from '../components/organisms/FiltersAndChips.jsx';
 const GENDERS = Object.values(Gender);
 
 const mapTownsToOptions = (towns) => towns.map((town) => ({ text: town.name, value: town._id }));
-const mapGendersToOptions = (genders) => genders.map((gender) => (
-  { text: gender.label, value: gender.id }
-));
-
 const getTowns = () => {
   const towns = Towns.find().fetch();
   return mapTownsToOptions(towns);
 };
 
+const mapGendersToOptions = (genders) => genders.map((gender) => (
+  { text: gender.label, value: gender.id }
+));
 const getGenders = () => mapGendersToOptions(GENDERS);
 
 const buildFilterData = () => ({
