@@ -2,7 +2,9 @@ import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter } from 'react-router';
 import { isEmpty, omit, pick } from 'underscore';
-import { update } from '../../api/proteges/methods.js';
+import { update as protegeUpdate } from '../../api/proteges/methods.js';
+import { insert as insertAddress } from '../../api/addresses/methods.js';
+import { insert as insertTown } from '../../api/towns/methods.js';
 import { ProtegesAggregate } from '../../api/collections.js';
 import Addresses from '../../api/addresses/addresses.js';
 import Towns from '../../api/towns/towns.js';
@@ -14,16 +16,38 @@ const updateAddressAndTown = (obj) => {
   const town = pick(obj, 'town', 'townId');
 
   if (!town.townId && town.town) {
-    // insert town
-    // insert address
-    // return addressId
+    const townId = insertTown.call({ name: town.town }, (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('Town update success: ');
+      }
+    });
+
+    if (townId) {
+      const addressId = insertAddress.call({ name: address.address, townId }, (err) => {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log('Address update success: ');
+        }
+      });
+
+      return { addressId };
+    }
+
     return {};
   }
 
-  if (!address.addressId && address.address) {
-    // insert address
-    // return addressId
-    return {};
+  if (!address.addressId && address.address && town.townId) {
+    const addressId = insertAddress.call({ name: address.address, townId: town.townId }, (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('Address update success: ');
+      }
+    });
+    return addressId ? { addressId } : {};
   }
 
   if (address.addressId) {
@@ -39,9 +63,9 @@ const updateProfile = (id, obj) => {
 
   const updateObject = { ...newObj, ...addressId };
   if (!isEmpty(updateObject)) {
-    update.call({ id, ...updateObject }, (err) => {
+    protegeUpdate.call({ id, ...updateObject }, (err) => {
       if (err) {
-        console.error('error', err);
+        console.error(err);
       } else {
         console.log('Update success: ', id);
       }

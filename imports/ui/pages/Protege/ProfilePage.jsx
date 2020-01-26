@@ -95,17 +95,35 @@ const separateChangedFields = (newObj, origObj) => {
   return diffObject;
 };
 
-const processAddressField = (diff, refAddress, stateAddress) => {
-  if (refAddress && stateAddress !== refAddress) {
+const processAddressAndTownFields = (diff, refAddress, refTown, state) => {
+  const { address, town, townId } = state;
+
+  // address and town were input (not selected from autoselect)
+  // autoselect selections are covered in separateChangedFields
+  if ((refAddress && (address !== refAddress)) && (refTown && (town !== refTown))) {
     diff.address = refAddress;
     diff.addressId = null;
-  }
-};
-
-const processTownField = (diff, refTown, stateTown) => {
-  if (refTown && stateTown !== refTown) {
     diff.town = refTown;
     diff.townId = null;
+
+    // address was input but town is the same
+  } else if (refAddress && (address !== refAddress) && (refTown === town)) {
+    diff.address = refAddress;
+    diff.addressId = null;
+    diff.town = refTown;
+    diff.townId = townId;
+
+    // address was selected but town was input (address is treated as input)
+  } else if ((refTown && (town !== refTown) && (refAddress === address))) {
+    diff.address = refAddress;
+    diff.addressId = null;
+    diff.town = refTown;
+    diff.townId = null;
+
+    // town was changed but address is the same
+  } else if (diff.town && !diff.address) {
+    diff.address = refAddress;
+    diff.addressId = null;
   }
 };
 
@@ -148,10 +166,8 @@ class ProfilePage extends React.Component {
           const diff = separateChangedFields(state, props.protege);
 
           const refAddress = property(['addressRef', 'current', 'value'])(this);
-          processAddressField(diff, refAddress, state.address);
-
           const refTown = property(['townRef', 'current', 'value'])(this);
-          processTownField(diff, refTown, state.town);
+          processAddressAndTownFields(diff, refAddress, refTown, state);
 
           onUpdate(state.id, diff);
 
