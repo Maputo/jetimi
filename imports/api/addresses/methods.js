@@ -13,22 +13,19 @@ const ADDRESS_VALIDATOR = new SimpleSchema({
   townId: { type: String },
 }).validator();
 
-const update = new ValidatedMethod({
-  name: 'addresses.update',
+const insert = new ValidatedMethod({
+  name: 'addresses.insert',
   validate: ADDRESS_VALIDATOR,
-  run({ ...obj }) {
-    const mongoId = new Mongo.Collection.ObjectID(obj.id);
-    console.log(Addresses.findOne(mongoId).fetch())
-    // Addresses.update(mongoId, {
-    //   $set: { ...obj },
-    // });
+  run(obj) {
+    obj._id = new Mongo.Collection.ObjectID().str;
+    return Addresses.insert(obj);
   },
 });
 
 
 // Get list of all method names on Lists
 const LISTS_METHODS = pluck([
-  update,
+  insert,
 ], 'name');
 
 if (Meteor.isServer) {
@@ -46,5 +43,5 @@ if (Meteor.isServer) {
 }
 
 export {
-  update,
+  insert,
 };
