@@ -8,7 +8,6 @@ import { contains, pluck } from 'underscore';
 import Addresses from './addresses.js';
 
 const ADDRESS_VALIDATOR = new SimpleSchema({
-  id: { type: String },
   name: { type: String },
   townId: { type: String },
 }).validator();

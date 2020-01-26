@@ -8,11 +8,11 @@ Towns.schema = new SimpleSchema({
 });
 
 // Deny all client-side updates since we will be using methods to manage this collection
-Towns.deny({
-  insert() { return true; },
-  update() { return true; },
-  remove() { return true; },
-});
+// Towns.deny({
+//   insert() { return true; },
+//   update() { return true; },
+//   remove() { return true; },
+// });
 
 Towns.attachSchema(Towns.schema);
 

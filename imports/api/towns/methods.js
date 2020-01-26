@@ -1,36 +1,28 @@
 import { Meteor } from 'meteor/meteor';
+import { Mongo } from 'meteor/mongo';
 import { ValidatedMethod } from 'meteor/mdg:validated-method';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { DDPRateLimiter } from 'meteor/ddp-rate-limiter';
 import { contains, pluck } from 'underscore';
 
-import Proteges from './proteges.js';
+import Towns from './towns.js';
 
-const PROTEGE_VALIDATOR = new SimpleSchema({
-  id: { type: String },
-  name: { type: String, optional: true },
-  dateOfBirth: { type: Date, optional: true },
-  joinDate: { type: Date, optional: true },
-  addressId: { type: String, optional: true },
-  text: { type: String, optional: true },
-  sponsor: { type: Boolean, optional: true },
-  situation: { type: Number, optional: true },
-  gender: { type: String, optional: true },
+const TOWN_VALIDATOR = new SimpleSchema({
+  name: { type: String },
 }).validator();
 
-const update = new ValidatedMethod({
-  name: 'proteges.update',
-  validate: PROTEGE_VALIDATOR,
+const insert = new ValidatedMethod({
+  name: 'towns.insert',
+  validate: TOWN_VALIDATOR,
   run({ ...obj }) {
-    Proteges.update(obj.id, {
-      $set: { ...obj },
-    });
+    obj._id = new Mongo.Collection.ObjectID().str;
+    return Towns.insert(obj);
   },
 });
 
 // Get list of all method names on Lists
 const LISTS_METHODS = pluck([
-  update,
+  insert,
 ], 'name');
 
 if (Meteor.isServer) {
@@ -48,5 +40,5 @@ if (Meteor.isServer) {
 }
 
 export {
-  update,
+  insert,
 };
